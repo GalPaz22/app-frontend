@@ -20,7 +20,7 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
-      const res = await axios.get('http://localhost:4000/check-auth', { withCredentials: true });
+      const res = await axios.get('https://app-backend-urlo.onrender.com/check-auth', { withCredentials: true });
       setAuthenticated(true);
     } catch (error) {
       setAuthenticated(false);
