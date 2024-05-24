@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const API_URL = 'https://app-backend-urlo.onrender.com/'; // Adjust this URL to your backend
+const API_URL = 'https://app-backend-urlo.onrender.com'; // Adjust this URL to your backend
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
