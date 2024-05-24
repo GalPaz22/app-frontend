@@ -59,7 +59,7 @@ export default function Home() {
       formData.append('file', file);
       formData.append('sessionId', sessionId);
 
-      const res = await axios.post('https://app-backend-urlo.onrender.com/generate-response', formData, {
+      const res = await axios.post('http://app-backend-urlo.onrender.com/generate-response', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
