@@ -14,6 +14,7 @@ export default function Home() {
   const [conversation, setConversation] = useState([]);
   const [sessionId, setSessionId] = useState(null);
   const [authenticated, setAuthenticated] = useState(null); // null indicates loading state
+  const [apiKey, setApiKey] = useState('');
 
   const router = useRouter();
   const axiosInstance = axios.create({
@@ -60,10 +61,14 @@ export default function Home() {
     setQuestion(e.target.value);
   };
 
+  const handleApiKeyChange = (e) => {
+    setApiKey(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!question || !file) {
-      alert('Please enter a question and upload a PDF file.');
+    if (!question || !file || !apiKey) {
+      alert('Please enter a question, upload a PDF file, and provide an API key.');
       return;
     }
 
@@ -80,6 +85,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${userId}`,
+          'X-API-Key': apiKey, // Send API key in request headers
         },
       });
 
@@ -142,6 +148,15 @@ export default function Home() {
               value={question}
               onChange={handleQuestionChange}
               placeholder="Enter your question"
+              className="border border-gray-300 rounded-md p-2 w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              value={apiKey}
+              onChange={handleApiKeyChange}
+              placeholder="Enter your API key"
               className="border border-gray-300 rounded-md p-2 w-full"
             />
           </div>
