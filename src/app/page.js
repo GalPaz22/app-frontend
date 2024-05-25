@@ -1,7 +1,7 @@
-
 'use client';
 import { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const API_URL = 'https://app-backend-urlo.onrender.com'; // Adjust this URL to your backend
 
@@ -9,14 +9,18 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async (e, res) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true });
+      const response = await axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true });
+      const { userId } = response.data;
+
+      // Set a cookie with the userId
+      Cookies.set('userId', userId, { expires: 1 }); // Expires in 1 day
+
       // Redirect to the "ask" page after successful login
       console.log('Login successful');
       window.location.href = '/ask';
-    
     } catch (error) {
       console.error('Error with login:', error);
       alert('Invalid email or password');

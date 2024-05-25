@@ -2,6 +2,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+
+const API_URL = 'https://app-backend-urlo.onrender.com'; // Adjust this URL to your backend
 
 export default function Home() {
   const [question, setQuestion] = useState('');
@@ -13,6 +16,10 @@ export default function Home() {
   const [authenticated, setAuthenticated] = useState(null); // null indicates loading state
 
   const router = useRouter();
+  const axiosInstance = axios.create({
+    baseURL: API_URL,
+    withCredentials: true,
+  });
 
   useEffect(() => {
     checkAuthentication();
@@ -20,11 +27,20 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
-      const res = await axios.get('https://app-backend-urlo.onrender.com/check-auth', );
-      setAuthenticated(true);
+      const userId = Cookies.get('userId');
+      if (!userId) {
+        setAuthenticated(false);
+        return;
+      }
+
+      const res = await axiosInstance.get('/check-auth', {
+        headers: {
+          Authorization: `Bearer ${userId}`,
+        },
+      });
+      setAuthenticated(res.data.authenticated);
     } catch (error) {
       setAuthenticated(false);
-    
     }
   };
 
@@ -54,14 +70,16 @@ export default function Home() {
     setLoading(true);
 
     try {
+      const userId = Cookies.get('userId');
       const formData = new FormData();
       formData.append('question', question);
       formData.append('file', file);
       formData.append('sessionId', sessionId);
 
-      const res = await axios.post('http://app-backend-urlo.onrender.com/generate-response', formData, {
+      const res = await axios.post(`${API_URL}/generate-response`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userId}`,
         },
       });
 
@@ -72,16 +90,16 @@ export default function Home() {
         setSessionId(newSessionId);
       }
 
-      setConversation(prevConversation => [
+      setConversation((prevConversation) => [
         ...prevConversation,
         { role: 'user', text: question },
-        { role: 'assistant', text: answer }
+        { role: 'assistant', text: answer },
       ]);
     } catch (error) {
       console.error('Error fetching response:', error);
-      setConversation(prevConversation => [
+      setConversation((prevConversation) => [
         ...prevConversation,
-        { role: 'system', text: 'An error occurred while fetching the response.' }
+        { role: 'system', text: 'An error occurred while fetching the response.' },
       ]);
     } finally {
       setLoading(false);
@@ -100,15 +118,15 @@ export default function Home() {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="file-upload" className="block text-gray-700 font-bold">Upload a PDF file:</label>
-            <input 
+            <input
               id="file-upload"
-              type="file" 
-              accept=".pdf" 
-              onChange={handleFileChange} 
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
               className="hidden"
             />
-            <label 
-              htmlFor="file-upload" 
+            <label
+              htmlFor="file-upload"
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md cursor-pointer inline-flex items-center"
             >
               <svg className="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
