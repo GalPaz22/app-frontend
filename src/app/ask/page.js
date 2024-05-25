@@ -80,12 +80,12 @@ export default function Home() {
       formData.append('question', question);
       formData.append('file', file);
       formData.append('sessionId', sessionId);
+      formData.append('apiKey', apiKey); // Append the apiKey to the form data
 
       const res = await axios.post(`${API_URL}/generate-response`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${userId}`,
-          'X-API-Key': apiKey, // Send API key in request headers
         },
       });
 
