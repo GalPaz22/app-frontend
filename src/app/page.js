@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   return (
-    <div dir="rtl" className="flex flex-col items-center justify-center py-2">
+    <div dir="rtl" className="flex flex-col items-center justify-center py-2 responsive">
       <main className="flex flex-col items-center justify-center min-h-screen flex-1 px-20 text-center">
         <h1 className="text-6xl font-bold mb-6">
-          ברוכים הבאים ל{" "}
+          -ברוכים הבאים ל{" "}
           <a href="/ask" className="text-blue-600">
             Askit
           </a>
