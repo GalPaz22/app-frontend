@@ -7,7 +7,7 @@ export default function Home() {
     <div dir="rtl" className="flex flex-col items-center justify-center py-2 responsive">
       <main className="flex flex-col items-center justify-center min-h-screen flex-1 px-20 text-center">
         <h1 className="text-6xl font-bold mb-6">
-          -ברוכים הבאים ל{" "}
+        ברוכים הבאים ל-{" "}
           <a href="/ask" className="text-blue-600">
             Askit
           </a>
