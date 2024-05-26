@@ -153,11 +153,12 @@ export default function Home() {
           </div>
           <div className="mb-4">
             <input
-              type="text"
+              type="password"
               value={apiKey}
               onChange={handleApiKeyChange}
               placeholder="Enter your API key"
               className="border border-gray-300 rounded-md p-2 w-full"
+
             />
           </div>
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Ask</button>
