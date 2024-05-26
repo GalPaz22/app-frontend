@@ -1,60 +1,85 @@
-'use client';
-import { useState } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-const API_URL = 'https://app-backend-urlo.onrender.com'; // Adjust this URL to your backend
-
-export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true });
-      const { userId } = response.data;
-
-      // Set a cookie with the userId
-      Cookies.set('userId', userId, { expires: 1 }); // Expires in 1 day
-
-      // Redirect to the "ask" page after successful login
-      console.log('Login successful');
-      window.location.href = '/ask';
-    } catch (error) {
-      console.error('Error with login:', error);
-      alert('Invalid email or password');
-    }
-  };
-
+export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-900 flex justify-center items-center">
-      <form onSubmit={handleLogin} className="bg-gray-200 p-6 rounded-md shadow-md">
-        <h1 className="text-3xl font-bold mb-4">Login</h1>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 font-bold">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border border-gray-300 rounded-md p-2 w-full"
-          />
+    <div dir="rtl" className="flex flex-col items-center justify-center py-2">
+      <main className="flex flex-col items-center justify-center min-h-screen flex-1 px-20 text-center">
+        <h1 className="text-6xl font-bold mb-6">
+          ברוכים הבאים ל{" "}
+          <a href="/ask" className="text-blue-600">
+            Askit
+          </a>
+          <br />
+        </h1>
+        <div className="flex flex-col items-center">
+          <svg
+            className="animate-bounce w-6 h-6 text-blue-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
         </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700 font-bold">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border border-gray-300 rounded-md p-2 w-full"
-          />
-        </div>
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-          Login
-        </button>
-      </form>
+      </main>
+      <section className="px-8 py-4 max-w-2xl mx-auto mb-10 ">
+        <span className="mt-3 text-2xl leading-relaxed font-bold">
+          אז איך זה עובד?
+        </span>
+        <p className="mt-3 text-lg leading-relaxed ">
+          המודל הוא פשוט - מדובר בבוט Q&A מבוסס Claude 3 sonnet של אנת'רופיק -
+          המודל הטוב ביותר בעולם לניתוח מסמכים (נכון להיום). כל מה שאתם צריכים 
+          לעשות זה לבחור מסמך, לכתוב את הפעולה שאתם מעוניינים שהמודל יבצע
+          ולהכניס API-key למערכת.
+        </p>
+        <br />
+        <span className="mt-3 text-2xl leading-relaxed mb font-bold">
+          ומה זה API-key?
+        </span>
+
+        <p className="mt-3 text-lg leading-relaxed">
+          {" "}
+          בגדול זה הדרך שלכם לתקשר עם המודל, ובשביל להשיג אחד כזה תצטרכו להרשם
+          כמשתמשים באנת'רופיק.{" "}
+          <a
+            className="text-blue-600"
+            href="https://console.anthropic.com/login?returnTo=%2F%3F"
+            target="_blank"
+          >
+            תוכלו ללחוץ ממש כאן כדי להגיע לעמוד ההרשמה, וממנו להכנס לקטגוריה של
+            מפתחות הAPI וליצור לכם אחד.
+          </a>
+        </p>
+
+        <br />
+        <span className="mt-3 text-2xl leading-relaxed mb font-bold">
+          זה גם עולה לי כסף?
+        </span>
+
+        <p className="mt-3 text-lg leading-relaxed">
+          {" "}
+          אז... כן ולא. יצירת מפתח חדש לא תעלה לכם כסף, אבל הבקשות שתשלחו לאחר
+          קבלת המפתח כן. מדובר ב2 סנט בממוצע לבקשה, ומשתמש ממוצע שולח כ-200
+          בקשות בחודש שיוצאים 7 שקלים חדשים לחודש.{" "}
+        </p>
+
+        <br />
+        <span className="mt-3 text-2xl leading-relaxed mb font-bold">
+             השתכנעתי! איך מתחילים?    
+        </span>
+
+        <a className="mt-3 text-lg mr-2 leading-relaxed underline" href="/ask">איזה כיף. לחצו כאן כדי להתחיל!</a>
+      </section>
+
+
     </div>
   );
 }

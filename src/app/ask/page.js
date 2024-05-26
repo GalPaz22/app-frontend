@@ -1,20 +1,20 @@
-'use client';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
+"use client";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
-const API_URL = 'https://app-backend-urlo.onrender.com'; // Adjust this URL to your backend
+const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 
 export default function Home() {
-  const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState("");
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [sessionId, setSessionId] = useState(null);
   const [authenticated, setAuthenticated] = useState(null); // null indicates loading state
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState("");
 
   const router = useRouter();
   const axiosInstance = axios.create({
@@ -28,13 +28,13 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
-      const userId = Cookies.get('userId');
+      const userId = Cookies.get("userId");
       if (!userId) {
         setAuthenticated(false);
         return;
       }
 
-      const res = await axiosInstance.get('/check-auth', {
+      const res = await axiosInstance.get("/check-auth", {
         headers: {
           Authorization: `Bearer ${userId}`,
         },
@@ -47,7 +47,7 @@ export default function Home() {
 
   useEffect(() => {
     if (authenticated === false) {
-      router.push('/'); // Redirect to login page if not authenticated
+      router.push("/login"); // Redirect to login page if not authenticated
     }
   }, [authenticated, router]);
 
@@ -68,23 +68,25 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!question || !file || !apiKey) {
-      alert('Please enter a question, upload a PDF file, and provide an API key.');
+      alert(
+        "Please enter a question, upload a PDF file, and provide an API key."
+      );
       return;
     }
 
     setLoading(true);
 
     try {
-      const userId = Cookies.get('userId');
+      const userId = Cookies.get("userId");
       const formData = new FormData();
-      formData.append('question', question);
-      formData.append('file', file);
-      formData.append('sessionId', sessionId);
-      formData.append('apiKey', apiKey); // Append the apiKey to the form data
+      formData.append("question", question);
+      formData.append("file", file);
+      formData.append("sessionId", sessionId);
+      formData.append("apiKey", apiKey); // Append the apiKey to the form data
 
       const res = await axios.post(`${API_URL}/generate-response`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${userId}`,
         },
       });
@@ -98,23 +100,30 @@ export default function Home() {
 
       setConversation((prevConversation) => [
         ...prevConversation,
-        { role: 'user', text: question },
-        { role: 'assistant', text: answer },
+        { role: "user", text: question },
+        { role: "assistant", text: answer },
       ]);
     } catch (error) {
-      console.error('Error fetching response:', error);
+      console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
         ...prevConversation,
-        { role: 'system', text: 'An error occurred while fetching the response.' },
+        {
+          role: "system",
+          text: "An error occurred while fetching the response.",
+        },
       ]);
     } finally {
       setLoading(false);
-      setQuestion('');
+      setQuestion("");
     }
   };
 
   if (authenticated === null) {
-    return <div className="min-h-screen flex justify-center items-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -123,7 +132,12 @@ export default function Home() {
         <h1 className="text-3xl font-bold mb-4">Ask Your Doc</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="file-upload" className="block text-gray-700 font-bold">Upload a PDF file:</label>
+            <label
+              htmlFor="file-upload"
+              className="block text-gray-700 font-bold"
+            >
+              Upload a PDF file:
+            </label>
             <input
               id="file-upload"
               type="file"
@@ -135,8 +149,18 @@ export default function Home() {
               htmlFor="file-upload"
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md cursor-pointer inline-flex items-center"
             >
-              <svg className="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              <svg
+                className="w-6 h-6 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
               </svg>
               Choose File
             </label>
@@ -153,21 +177,31 @@ export default function Home() {
           </div>
           <div className="mb-4">
             <input
-              type="password"
+              type="text"
               value={apiKey}
               onChange={handleApiKeyChange}
               placeholder="Enter your API key"
               className="border border-gray-300 rounded-md p-2 w-full"
-
             />
           </div>
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Ask</button>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          >
+            Ask
+          </button>
         </form>
         {loading && <div className="mt-4 text-gray-700">Loading...</div>}
         <div id="response-container" className="mt-4">
           {conversation.map((entry, index) => (
-            <div key={index} className={`p-2 border rounded-md mb-2 ${entry.role === 'user' ? 'bg-gray-200' : 'bg-gray-100'}`}>
-              <strong>{entry.role === 'user' ? 'You' : 'Assistant'}:</strong> {entry.text}
+            <div
+              key={index}
+              className={`p-2 border rounded-md mb-2 ${
+                entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
+              }`}
+            >
+              <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
+              {entry.text}
             </div>
           ))}
         </div>
