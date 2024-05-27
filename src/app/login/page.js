@@ -8,12 +8,15 @@ const API_URL = 'https://app-backend-urlo.onrender.com'; // Adjust this URL to y
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginloading, setLoginloading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true });
       const { userId } = response.data;
+
+      setLoginloading(true);
 
       // Set a cookie with the userId
       Cookies.set('userId', userId, { expires: 1 }); // Expires in 1 day
@@ -54,6 +57,7 @@ export default function LoginPage() {
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
           Login
         </button>
+        {loginloading && <p className="mt-4 text-gray-700">Loading...</p>}
       </form>
     </div>
   );
