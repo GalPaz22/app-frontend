@@ -28,7 +28,7 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
-      const userId = Cookies.get("userId", 'sessionId'); ;
+      const userId = Cookies.get("userId" );
       if (!userId) {
         setAuthenticated(false);
         return;

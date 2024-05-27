@@ -15,10 +15,9 @@ export default function LoginPage() {
     setLoginloading(true);
     try {
       const response = await axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true });
-      const { sessionId, userId } = response.data;
+      const { userId } = response.data;
 
-      // Set a cookie with the sessionId and userId
-      Cookies.set('sessionId', sessionId , { expires: 1 }); // Expires in 1 day
+      // Set a cookie with the userId
       Cookies.set('userId', userId , { expires: 1 }); // Expires in 1 day
 
       // Redirect to the "ask" page after successful login
@@ -30,7 +29,7 @@ export default function LoginPage() {
       setLoginloading(false);
     }
   };
-  
+
   return (
     <div className="min-h-screen bg-gray-900 flex justify-center items-center">
       <form onSubmit={handleLogin} className="bg-gray-200 p-6 rounded-md shadow-md">
