@@ -34,6 +34,13 @@ export default function Home() {
         return;
       }
 
+      // Check if session is valid
+      const sessionId = Cookies.get("sessionId" );
+      if (!sessionId) {
+        setAuthenticated(false);
+        return;
+      }
+
       const res = await axiosInstance.get("/check-auth", {
         headers: {
           Authorization: `Bearer ${userId }`,
@@ -41,6 +48,7 @@ export default function Home() {
         },
       });
       setAuthenticated(res.data.authenticated);
+      setSessionId(res.data.sessionId);
     } catch (error) {
       setAuthenticated(false);
     }
