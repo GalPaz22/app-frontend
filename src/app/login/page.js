@@ -57,8 +57,8 @@ export default function LoginPage() {
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
           Login
         </button>
-      </form>
         {loginloading && <p className="mt-4 text-gray-700">Loading...</p>}
+      </form>
     </div>
   );
 }
