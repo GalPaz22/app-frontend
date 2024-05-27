@@ -21,13 +21,24 @@ export default function Home() {
     baseURL: API_URL,
     withCredentials: true,
   });
+
   useEffect(() => {
     checkAuthentication();
   }, []);
 
   const checkAuthentication = async () => {
     try {
-      const res = await axiosInstance.get("/check-auth");
+      const userId = Cookies.get("userId" );
+      if (!userId) {
+        setAuthenticated(false);
+        return;
+      }
+
+      const res = await axiosInstance.get("/check-auth", {
+        headers: {
+          Authorization: `Bearer ${userId }`,
+        },
+      });
       setAuthenticated(res.data.authenticated);
     } catch (error) {
       setAuthenticated(false);
