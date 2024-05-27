@@ -28,12 +28,19 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
-      console.log("Checking authentication..."); // Debugging line
-      const res = await axiosInstance.get("/check-auth");
-      console.log("Response received:", res.data); // Debugging line
+      const userId = Cookies.get("userId" );
+      if (!userId) {
+        setAuthenticated(false);
+        return;
+      }
+
+      const res = await axiosInstance.get("/check-auth", {
+        headers: {
+          Authorization: `Bearer ${userId }`,
+        },
+      });
       setAuthenticated(res.data.authenticated);
     } catch (error) {
-      console.error("Error during authentication check:", error);
       setAuthenticated(false);
     }
   };
@@ -61,22 +68,26 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!question || !file || !apiKey) {
-      alert("Please enter a question, upload a PDF file, and provide an API key.");
+      alert(
+        "Please enter a question, upload a PDF file, and provide an API key."
+      );
       return;
     }
 
     setLoading(true);
 
     try {
+      const userId = Cookies.get("userId");
       const formData = new FormData();
       formData.append("question", question);
       formData.append("file", file);
       formData.append("sessionId", sessionId);
       formData.append("apiKey", apiKey); // Append the apiKey to the form data
 
-      const res = await axiosInstance.post("/generate-response", formData, {
+      const res = await axios.post(`${API_URL}/generate-response`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${userId}`,
         },
       });
 
@@ -114,7 +125,7 @@ export default function Home() {
       </div>
     );
   }
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-400 to-blue-500 flex justify-center items-center">
       <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
@@ -189,7 +200,8 @@ export default function Home() {
                 entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
               }`}
             >
-              <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong> {entry.text}
+              <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
+              {entry.text}
             </div>
           ))}
         </div>

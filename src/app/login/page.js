@@ -18,8 +18,7 @@ export default function LoginPage() {
       const { userId } = response.data;
 
       // Set a cookie with the userId
-      
-      
+      Cookies.set('userId', userId , { expires: 1 }); // Expires in 1 day
 
       // Redirect to the "ask" page after successful login
       console.log('Login successful');
