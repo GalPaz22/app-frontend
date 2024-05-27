@@ -12,11 +12,10 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoginloading(true);
     try {
       const response = await axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true });
       const { userId } = response.data;
-
-      setLoginloading(true);
 
       // Set a cookie with the userId
       Cookies.set('userId', userId, { expires: 1 }); // Expires in 1 day
@@ -27,6 +26,7 @@ export default function LoginPage() {
     } catch (error) {
       console.error('Error with login:', error);
       alert('Invalid email or password');
+      setLoginloading(false);
     }
   };
 
@@ -57,8 +57,8 @@ export default function LoginPage() {
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
           Login
         </button>
-        {loginloading && <p className="mt-4 text-gray-700">Loading...</p>}
       </form>
+        {loginloading && <p className="mt-4 text-gray-700">Loading...</p>}
     </div>
   );
 }
