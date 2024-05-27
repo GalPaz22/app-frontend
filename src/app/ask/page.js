@@ -28,9 +28,12 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
+      console.log("Checking authentication..."); // Debugging line
       const res = await axiosInstance.get("/check-auth");
+      console.log("Response received:", res.data); // Debugging line
       setAuthenticated(res.data.authenticated);
     } catch (error) {
+      console.error("Error during authentication check:", error);
       setAuthenticated(false);
     }
   };
@@ -111,7 +114,7 @@ export default function Home() {
       </div>
     );
   }
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-400 to-blue-500 flex justify-center items-center">
       <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
