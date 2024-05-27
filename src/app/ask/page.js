@@ -37,6 +37,7 @@ export default function Home() {
       const res = await axiosInstance.get("/check-auth", {
         headers: {
           Authorization: `Bearer ${userId }`,
+          sessionId: `Bearer ${sessionId }`,
         },
       });
       setAuthenticated(res.data.authenticated);
