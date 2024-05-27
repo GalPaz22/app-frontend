@@ -28,7 +28,7 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
-      const userId = Cookies.get("userId" + Math.floor(Math.random() * 1000000000));
+      const userId = Cookies.get("userId" );
       if (!userId) {
         setAuthenticated(false);
         return;
@@ -36,7 +36,7 @@ export default function Home() {
 
       const res = await axiosInstance.get("/check-auth", {
         headers: {
-          Authorization: `Bearer ${userId + Math.floor(Math.random() * 1000000000)}`,
+          Authorization: `Bearer ${userId }`,
         },
       });
       setAuthenticated(res.data.authenticated);
