@@ -125,7 +125,7 @@ export default function Home() {
     try {
       const userId = Cookies.get("userId");
   
-      await axiosInstance.get(`${API_URL}/logout`,   {
+      await axiosInstance.get("/logout",  {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userId}`,
