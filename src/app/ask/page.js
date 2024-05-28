@@ -21,6 +21,7 @@ export default function Home() {
     baseURL: API_URL,
     withCredentials: true,
   });
+  co
 
   useEffect(() => {
     checkAuthentication();
@@ -28,16 +29,8 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
-      const userId = Cookies.get("userId" );
-      if (!userId) {
-        setAuthenticated(false);
-        return;
-      }
-
-      const res = await axiosInstance.get("/check-auth", {
-        headers: {
-          Authorization: `Bearer ${userId }`,
-        },
+      const res = await axios.get(`${API_URL}/check-auth`, {
+        withCredentials: true,
       });
       setAuthenticated(res.data.authenticated);
     } catch (error) {
