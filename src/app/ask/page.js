@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { headers } from "next/headers";
 
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 
@@ -122,7 +123,15 @@ export default function Home() {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.post("/logout");
+      const userId = Cookies.get("userId");
+  
+      await axiosInstance.post("/logout", {}, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userId}`,
+        },
+      });
+  
       Cookies.remove("userId");
       setAuthenticated(false);
       router.push("/login");
@@ -130,6 +139,7 @@ export default function Home() {
       console.error("Error during logout:", error);
     }
   };
+  
 
   if (authenticated === null) {
     return (
