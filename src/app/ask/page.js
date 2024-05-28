@@ -29,7 +29,7 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
-      const res = await axios.get(`${API_URL}/check-auth`, {
+      const res = await axiosInstance.get(`${API_URL}/check-auth`, {
         withCredentials: true,
       });
       setAuthenticated(res.data.authenticated);
