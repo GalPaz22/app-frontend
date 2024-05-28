@@ -1,4 +1,4 @@
- "use client";
+"use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -22,15 +22,14 @@ export default function Home() {
     withCredentials: true,
   });
 
-
   useEffect(() => {
     checkAuthentication();
   }, []);
 
   const checkAuthentication = async () => {
     try {
-      const userId = Cookies.get("userId" );
-      
+      const userId = Cookies.get("userId");
+
       if (!userId) {
         setAuthenticated(false);
         return;
@@ -38,14 +37,9 @@ export default function Home() {
 
       const res = await axiosInstance.get("/check-auth", {
         headers: {
-          Authorization: `Bearer ${userId }`,
+          Authorization: `Bearer ${userId}`,
         },
       });
-
-
-
-   
-
 
       setAuthenticated(res.data.authenticated);
     } catch (error) {
@@ -126,6 +120,17 @@ export default function Home() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post("/logout");
+      Cookies.remove("userId");
+      setAuthenticated(false);
+      router.push("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
   if (authenticated === null) {
     return (
       <div className="min-h-screen flex justify-center items-center">
@@ -138,6 +143,12 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-red-400 to-blue-500 flex justify-center items-center">
       <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
         <h1 className="text-3xl font-bold mb-4">Ask Your Doc</h1>
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 mb-4"
+        >
+          Logout
+        </button>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
