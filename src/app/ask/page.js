@@ -29,9 +29,24 @@ export default function Home() {
 
   const checkAuthentication = async () => {
     try {
-      const res = await axiosInstance.get(`${API_URL}/check-auth`, {
-        withCredentials: true,
+      const userId = Cookies.get("userId" );
+      
+      if (!userId) {
+        setAuthenticated(false);
+        return;
+      }
+
+      const res = await axiosInstance.get("/check-auth", {
+        headers: {
+          Authorization: `Bearer ${userId }`,
+        },
       });
+
+
+
+   
+
+
       setAuthenticated(res.data.authenticated);
     } catch (error) {
       setAuthenticated(false);
