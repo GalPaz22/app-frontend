@@ -10,6 +10,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loginloading, setLoginloading] = useState(false);
   ;
+  const getSessionId = () => {
+    // Generate a unique session ID using uuidv4
+    return uuidv4();
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
