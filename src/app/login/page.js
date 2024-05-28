@@ -9,12 +9,14 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginloading, setLoginloading] = useState(false);
+  ;
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoginloading(true);
+    const sessionId = getSessionId(); // Get the session ID
     try {
-      const response = await axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true });
+      const response = await axios.post(`${API_URL}/login`, { email, password, sessionId }, { withCredentials: true });
       const { userId } = response.data;
 
       // Set a cookie with the userId

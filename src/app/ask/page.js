@@ -21,7 +21,7 @@ export default function Home() {
     baseURL: API_URL,
     withCredentials: true,
   });
-  co
+
 
   useEffect(() => {
     checkAuthentication();
