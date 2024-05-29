@@ -35,7 +35,7 @@ export default function LoginPage() {
       window.location.href = '/ask';
     } catch (error) {
       console.error('Error with login:', error);
-      alert('Invalid email or password');
+      alert(error);
       setLoginloading(false);
     }
   };
