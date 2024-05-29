@@ -127,7 +127,6 @@ export default function Home() {
 
     await axiosInstance.post("/logout", {}, {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${userId}`,
       },
     });
@@ -135,6 +134,7 @@ export default function Home() {
     Cookies.remove("userId");
     setAuthenticated(false);
     router.push("/login");
+
   } catch (error) {
     console.error("Error during logout:", error);
   }
