@@ -125,7 +125,7 @@ export default function Home() {
   try {
     const userId = Cookies.get("userId");
 
-    await axiosInstance.post("/logout", {}, {
+    await axiosInstance.post("https://app-backend-urlo.onrender.com/logout", {
       headers: {
         Authorization: `Bearer ${userId}`,
       },
