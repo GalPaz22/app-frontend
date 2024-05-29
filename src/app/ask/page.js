@@ -121,18 +121,16 @@ export default function Home() {
     }
   };
 
- const handleLogout = async () => {
-  try { 
-
+  const handleLogout = async () => {
     Cookies.remove("userId");
     setAuthenticated(false);
-    router.push("/login");
-
-  } catch (error) {
-    console.error("Error during logout:", error);
-  }
-};
-
+    try {
+      await axiosInstance.post("/logout", {});
+      router.push("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
 
   if (authenticated === null) {
     return (
