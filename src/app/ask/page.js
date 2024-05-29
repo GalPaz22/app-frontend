@@ -123,7 +123,11 @@ export default function Home() {
 
  const handleLogout = async () => {
   try {
-
+    res = await axiosInstance.get("/logout", {
+      headers: {
+        Authorization: `Bearer ${userId}`,
+      },
+    });
     Cookies.remove("userId");
     setAuthenticated(false);
     router.push("/login");
