@@ -213,7 +213,7 @@ export default function Home() {
         </form>
         {loading && <div className="mt-4 text-gray-700">Loading...</div>}
         <div id="response-container" className="mt-4">
-          {conversation.map((entry, index) => (
+          {conversation.reverse().map((entry, index) => (
             <div
               key={index}
               className={`p-2 border rounded-md mb-2 ${
