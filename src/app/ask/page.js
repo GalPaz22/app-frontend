@@ -220,8 +220,8 @@ export default function Home() {
                 entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
               }`}
             >
-              <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
               {entry.text}
+              <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
             </div>
           ))}
         </div>
