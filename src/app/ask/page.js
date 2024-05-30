@@ -213,15 +213,15 @@ export default function Home() {
         </form>
         {loading && <div className="mt-4 text-gray-700">Loading...</div>}
         <div id="response-container" className="mt-4">
-          {conversation.reverse().map((entry, index) => (
+          {conversation.reverse().slice(0, 5).map((entry, index) => (
             <div
               key={index}
               className={`p-2 border rounded-md mb-2 ${
                 entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
               }`}
             >
-              {entry.text}
               <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
+              {entry.text}
             </div>
           ))}
         </div>
