@@ -22,10 +22,10 @@ export default function LoginPage() {
     const sessionId = getSessionId(); // Get the session ID
     try {
       const response = await axios.post(`${API_URL}/login`, { email, password, sessionId }, { withCredentials: true });
-      const { userId } = response.data;
+     
 
       // Set a cookie with the userId
-      Cookies.set('userId', userId, { expires: 1 / 24 });// Expires in 1 day
+     // Expires in 1 day
       
       
 
