@@ -41,7 +41,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex justify-center items-center">
+    <div className="min-h-screen bg-lime-950/50 flex justify-center items-center">
       <form onSubmit={handleLogin} className="bg-gray-200 p-6 rounded-md shadow-md">
         <h1 className="text-3xl font-bold mb-4">Login</h1>
         <div className="mb-4">
@@ -67,8 +67,8 @@ export default function LoginPage() {
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
           Login
         </button>
-        <button onClick={() => window.location.href = '/'} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-4">
-          back to homepage
+        <button onClick={() => window.location.href = '/'} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 ml-4">
+          Back 
         </button>
         {loginloading && <p className="mt-4 ">Loading...</p>}
       </form>
