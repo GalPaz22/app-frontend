@@ -67,6 +67,9 @@ export default function LoginPage() {
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
           Login
         </button>
+        <button onClick={() => window.location.href = '/'} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-4">
+          back to homepage
+        </button>
         {loginloading && <p className="mt-4 ">Loading...</p>}
       </form>
     </div>
