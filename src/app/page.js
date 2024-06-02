@@ -38,47 +38,31 @@ export default function Home() {
           המודל הוא פשוט - מדובר בבוט Q&A מבוסס Claude 3 sonnet של אנת'רופיק -
           המודל הטוב ביותר בעולם לניתוח מסמכים (נכון להיום). כל מה שאתם צריכים 
           לעשות זה לבחור מסמך, לכתוב את הפעולה שאתם מעוניינים שהמודל יבצע
-          ולהכניס API-key למערכת.
+          ולחכות כמה שניות.
         </p>
         <br />
-        <span className="mt-3 text-2xl leading-relaxed mb font-bold">
-          ומה זה API-key?
-        </span>
-
-        <p className="mt-3 text-lg leading-relaxed">
-          {" "}
-          בגדול זה הדרך שלכם לתקשר עם המודל, ובשביל להשיג אחד כזה תצטרכו להרשם
-          כמשתמשים באנת'רופיק.{" "}
-          <a
-            className="text-blue-600"
-            href="https://console.anthropic.com/login?returnTo=%2F%3F"
-            target="_blank"
-          >
-            תוכלו ללחוץ ממש כאן כדי להגיע לעמוד ההרשמה, וממנו להכנס לקטגוריה של
-            מפתחות הAPI וליצור לכם אחד.
-          </a>
-        </p>
-
-        <br />
-        <span className="mt-3 text-2xl leading-relaxed mb font-bold">
-          זה גם עולה לי כסף?
-        </span>
-
-        <p className="mt-3 text-lg leading-relaxed">
-          {" "}
-          אז... כן ולא. יצירת מפתח חדש לא תעלה לכם כסף, אבל הבקשות שתשלחו לאחר
-          קבלת המפתח כן. מדובר ב-2 סנט בממוצע לבקשה, ומשתמש ממוצע שולח כ100 בקשות חודשיות שיצאו בערך 7₪. {" "}
-        </p>
-
-        <br />
-        <span className="mt-3 text-2xl leading-relaxed mb font-bold">
-             השתכנעתי! איך מתחילים?    
-        </span>
-
-        <a className="mt-3 text-lg mr-2 leading-relaxed underline" href="/ask">איזה כיף. לחצו כאן כדי להתחיל!</a>
-      </section>
-
-
+    
+    <span className="mt-3 text-2xl leading-relaxed font-bold">
+      ואיך משתמשים בצ'אט בוט?
+    </span>
+    <p className="mt-3 text-lg leading-relaxed ">
+      בגדול, פשוט טענו מסמך PDF ובקשו כל מה שתרצו - סיכומים, הבהרות, השוואות או ניתוחי גרפים - הוא מסוגל להכל. 
+      ככל שתדייקו את הבקשה שלכם ותהפכו אותה לברורה יותר, כך התוצאה שתקבלו תהיה טובה יותר.
+      קחו בחשבון שגם חיבור חזק לאינטרנט משפיע על הביצועים.
+    </p>
+    <br />
+    <span className="mt-3 text-2xl leading-relaxed mb font-bold">
+      למה שלא אקנה משתמש אחד ואעביר בין כל החברים?
+    </span>
+    <p className="mt-3 text-lg leading-relaxed">
+המערכת יודעת לזהות כניסה מקבילה של משתמש יחיד ותחסום את הבקשות בהתאם. ניסיונות מרובים להכנס במקביל יובילו למחיקת המשתמש מהדאטאבייס.
+    </p>
+    <br />
+    <span className="mt-3 text-2xl leading-relaxed mb font-bold">
+      השתכנעתי! איך מתחילים?    
+    </span>
+    <a className="mt-3 text-lg mr-2 leading-relaxed underline" href="/ask">איזה כיף. לחצו כאן כדי להתחיל!</a>
+</section>
     </div>
   );
 }
