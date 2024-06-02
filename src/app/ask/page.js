@@ -69,7 +69,7 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!question || !file || !apiKey) {
+    if (!question || !file ) {
       alert(
         "Please enter a question, upload a PDF file, and provide an API key."
       );
