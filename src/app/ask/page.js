@@ -4,7 +4,6 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
-
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 
 export default function Home() {
@@ -195,15 +194,7 @@ export default function Home() {
               className="border border-gray-300 rounded-md p-2 w-full"
             />
           </div>
-          <div className="mb-4">
-            <input
-              type="text"
-              value={apiKey}
-              onChange={handleApiKeyChange}
-              placeholder="Enter your API key"
-              className="border border-gray-300 rounded-md p-2 w-full"
-            />
-          </div>
+
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
@@ -213,17 +204,20 @@ export default function Home() {
         </form>
         {loading && <div className="mt-4 text-gray-700">Loading...</div>}
         <div id="response-container" className="mt-4">
-          {conversation.slice().reverse().map((entry, index) => (
-            <div
-              key={index}
-              className={`p-2 border rounded-md mb-2 ${
-                entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
-              }`}
-            >
-              <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
-              {entry.text}
-            </div>
-          ))}
+          {conversation
+            .slice()
+            .reverse()
+            .map((entry, index) => (
+              <div
+                key={index}
+                className={`p-2 border rounded-md mb-2 ${
+                  entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
+                }`}
+              >
+                <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
+                {entry.text}
+              </div>
+            ))}
         </div>
       </div>
     </div>
