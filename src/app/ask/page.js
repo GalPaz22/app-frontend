@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Navbar from "../Navbar";
 
 
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
@@ -62,6 +63,8 @@ export default function Home() {
 
   const handleQuestionChange = (e) => {
     setQuestion(e.target.value);
+    e.preventDefault();
+    
   };
 
   const handleApiKeyChange = (e) => {
@@ -141,13 +144,15 @@ export default function Home() {
   }
 
   return (
+    <Navbar>
+
     <div className="min-h-screen bg-gradient-to-br from-red-400 to-blue-500 flex justify-center items-center">
       <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
         <h1 className="text-3xl font-bold mb-4">Ask Your Doc</h1>
         <button
           onClick={handleLogout}
           className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 mb-4"
-        >
+          >
           Logout
         </button>
         <form onSubmit={handleSubmit}>
@@ -155,7 +160,7 @@ export default function Home() {
             <label
               htmlFor="file-upload"
               className="block text-gray-700 font-bold"
-            >
+              >
               Upload a PDF file:
             </label>
             <input
@@ -164,23 +169,23 @@ export default function Home() {
               accept=".pdf"
               onChange={handleFileChange}
               className="hidden"
-            />
+              />
             <label
               htmlFor="file-upload"
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md cursor-pointer inline-flex items-center"
-            >
+              >
               <svg
                 className="w-6 h-6 mr-2"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-              >
+                >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
                   d="M12 4v16m8-8H4"
-                />
+                  />
               </svg>
               Choose File
             </label>
@@ -202,12 +207,12 @@ export default function Home() {
               onChange={handleApiKeyChange}
               placeholder="Enter your API key"
               className="border border-gray-300 rounded-md p-2 w-full"
-            />
+              />
           </div>
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-          >
+            >
             Ask
           </button>
         </form>
@@ -219,7 +224,7 @@ export default function Home() {
               className={`p-2 border rounded-md mb-2 ${
                 entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
               }`}
-            >
+              >
               <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
               {entry.text}
             </div>
@@ -227,5 +232,6 @@ export default function Home() {
         </div>
       </div>
     </div>
+          </Navbar>
   );
 }
