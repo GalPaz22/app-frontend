@@ -93,7 +93,7 @@ export default function Chat() {
       setConversation((prevConversation) => [
         ...prevConversation,
         { role: "user", text: message },
-        { role: "assistant", text: answer.answer },
+        { role: "assistant", text: answer.text },
       ]);
     } catch (error) {
       console.error("Error fetching response:", error);
