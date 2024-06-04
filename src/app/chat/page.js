@@ -1,7 +1,6 @@
-"use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import Navbar from "../Navbar";
 
@@ -11,7 +10,8 @@ export default function Chat() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
-  const [authenticated, setAuthenticated] = useState(null); // null indicates loading state
+  const [authenticated, setAuthenticated] = useState(null); 
+  const [generation, setGeneration] = useState<string>(''); // null indicates loading state
   const router = useRouter();
 
   const axiosInstance = axios.create({
@@ -65,24 +65,33 @@ export default function Chat() {
 
     try {
       const userId = Cookies.get("userId");
-      const res = await axios.post(
-        `${API_URL}/chat-response`,
-        { message },
-        {
-          headers: {
-            Authorization: `Bearer ${userId}`,
-          },
-        }
-      );
+      const response = await axios.post(`${API_URL}/chat-response`, { message }, {
+        responseType: 'stream', // Specify that the response should be treated as a stream
+        headers: {
+          Authorization: `Bearer ${userId}`,
+        },
+      });
 
-      const answer = res.data.answer;
-      console.log(res.data);
+      response.data.on('data', (chunk) => {
+        // Convert the chunk to a string and append it to the current generation
+        setGeneration(currentGeneration => currentGeneration + chunk.toString());
+      });
+
+      response.data.on('end', () => {
+        // Handle stream end if needed
+      });
+
+      response.data.on('error', (error) => {
+        console.error('Stream error:', error);
+        // Handle stream error if needed
+      });
 
       setConversation((prevConversation) => [
         ...prevConversation,
         { role: "user", text: message },
-        { role: "assistant", text: answer },
+        { role: "assistant", text: generation },
       ]);
+
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
