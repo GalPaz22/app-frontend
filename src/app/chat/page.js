@@ -67,7 +67,7 @@ export default function Chat() {
     try {
       const userId = Cookies.get("userId");
       const response = await axios.post(`${API_URL}/chat-response`, { message }, {
-        responseType: 'stream', // Specify that the response should be treated as a stream
+         // Specify that the response should be treated as a stream
         headers: {
           Authorization: `Bearer ${userId}`,
         },
