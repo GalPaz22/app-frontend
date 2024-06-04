@@ -158,13 +158,14 @@ export default function Chat() {
             </button>
           </form>
           {loading && <div className="mt-4 text-gray-700">Loading...</div>}
-          <div id="response-container" className="mt-4">
+          <div id="response-container" className="mt-4 overflow-y-auto rtl">
             {conversation.slice().reverse().map((entry, index) => (
               <div
                 key={index}
                 className={`p-2 border rounded-md mb-2 ${
                   entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
                 }`}
+                style={{ direction: 'rtl' }} // Set direction to RTL
               >
                 <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
                 {entry.text}
@@ -175,4 +176,4 @@ export default function Chat() {
       </div>
     </>
   );
-}
+}  
