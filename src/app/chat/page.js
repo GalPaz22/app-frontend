@@ -75,7 +75,7 @@ export default function Chat() {
         }
       );
 
-      const answer = res.data.answer;
+      const answer = res.content.response;
 
       setConversation((prevConversation) => [
         ...prevConversation,
