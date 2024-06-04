@@ -12,7 +12,7 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [authenticated, setAuthenticated] = useState(null); 
-  const [generation, setGeneration] = useState<string>(''); // null indicates loading state
+  const [generation, setGeneration] = useState(''); // null indicates loading state
   const router = useRouter();
 
   const axiosInstance = axios.create({
