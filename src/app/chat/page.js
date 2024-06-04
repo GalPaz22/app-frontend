@@ -65,28 +65,43 @@ export default function Chat() {
     setLoading(true);
 
     try {
-      const userId = Cookies.get("userId");
-      const response = await axios.post(`${API_URL}/chat-response`, { message }, {
-         // Specify that the response should be treated as a stream
-        headers: {
-          Authorization: `Bearer ${userId}`,
-        },
-      });
-
-      response.data.on('data', (chunk) => {
-        // Convert the chunk to a string and append it to the current generation
-        setGeneration(currentGeneration => currentGeneration + chunk.toString());
-      });
-
-      response.data.on('end', () => {
-        // Handle stream end if needed
-      });
-
-      response.data.on('error', (error) => {
-        console.error('Stream error:', error);
-        // Handle stream error if needed
-      });
-
+      const handleChatResponse = async () => {
+        try {
+          const userId = Cookies.get("userId");
+          const response = await fetch(`${API_URL}/chat-response`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userId}`,
+            },
+            body: JSON.stringify({ message }),
+          });
+      
+          // Check if the response was successful
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const reader = response.body.getReader();
+          let chunks = '';
+      
+          while (true) {
+            const { done, value } = await reader.read();
+      
+            // Check if the stream has ended
+            if (done) break;
+      
+            // Convert the Uint8Array chunk to a string and append it
+            chunks += new TextDecoder().decode(value);
+          }
+      
+          // Process the complete response here
+          console.log(chunks);
+        } catch (error) {
+          console.error("Error fetching response:", error);
+          // Handle error if needed
+        }
+      };
       setConversation((prevConversation) => [
         ...prevConversation,
         { role: "user", text: message },
