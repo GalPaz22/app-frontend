@@ -76,6 +76,7 @@ export default function Chat() {
       );
 
       const answer = res.data.response;
+      console.log(res.data);
 
       setConversation((prevConversation) => [
         ...prevConversation,
@@ -121,7 +122,7 @@ export default function Chat() {
       <Navbar />
       <div className="min-h-screen bg-gradient-to-br from-red-400 to-blue-500 flex justify-center items-center">
         <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
-          <h1 className="text-3xl font-bold mb-4">Chat with Your Doc</h1>
+          <h1 className="text-3xl font-bold mb-4">ChatGPT-4</h1>
           <button
             onClick={handleLogout}
             className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 mb-4"
