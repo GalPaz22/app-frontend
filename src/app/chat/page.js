@@ -65,35 +65,24 @@ export default function Chat() {
 
     try {
       const userId = Cookies.get("userId");
-      const eventSource = new EventSource(`${API_URL}/chat-response`, {
-        headers: {
-          Authorization: `Bearer ${userId}`,
-        },
-      });
-
-      eventSource.onmessage = (event) => {
-        const answer = event.data.trim();
-        setConversation((prevConversation) => [
-          ...prevConversation,
-          { role: "user", text: message },
-          { role: "assistant", text: answer },
-        ]);
-        setLoading(false);
-        eventSource.close();
-      };
-
-      eventSource.onerror = (error) => {
-        console.error("Error fetching response:", error);
-        setConversation((prevConversation) => [
-          ...prevConversation,
-          {
-            role: "system",
-            text: "An error occurred while fetching the response.",
+      const res = await axios.post(
+        `${API_URL}/chat-response`,
+        { message },
+        {
+          headers: {
+            Authorization: `Bearer ${userId}`,
           },
-        ]);
-        setLoading(false);
-        eventSource.close();
-      };
+        }
+      );
+
+      const answer = res.data.reply;
+      console.log(res.data);
+
+      setConversation((prevConversation) => [
+        ...prevConversation,
+        { role: "user", text: message },
+        { role: "assistant", text: answer },
+      ]);
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
@@ -103,8 +92,8 @@ export default function Chat() {
           text: "An error occurred while fetching the response.",
         },
       ]);
-      setLoading(false);
     } finally {
+      setLoading(false);
       setMessage("");
     }
   };
@@ -175,5 +164,5 @@ export default function Chat() {
         </div>
       </div>
     </>
-  );
-}  
+  ); 
+}
