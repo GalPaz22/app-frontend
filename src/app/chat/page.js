@@ -100,9 +100,11 @@ export default function Chat() {
         for (const line of lines) {
           if (line.startsWith('data:')) {
             try {
-              const data = (line.substring(5));
-              if (data.choices[0] !== '[DONE]') {
-                newGeneration += data.choices[0];
+              console.log(line);
+              const data = JSON.parse(line.substring(5));
+              console.log(data);
+              if (data.choices !== '[DONE]') {
+                newGeneration += data.content;
                 setGeneration(newGeneration);
               }
             } catch (error) {
