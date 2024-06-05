@@ -79,10 +79,13 @@ export default function Chat() {
         throw new Error('Failed to fetch response');
       } else {
         const data = await response;
+
+       
+
         setConversation((prevConversation) => [
           ...prevConversation,
           { role: "user", text: message },
-          { role: "assistant", text: data.text },
+          { role: "assistant", text: data.kwargs.answer },
         ]);
       }
     } catch (error) {
