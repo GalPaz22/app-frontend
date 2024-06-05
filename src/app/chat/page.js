@@ -78,7 +78,7 @@ export default function Chat() {
       if (!response.ok) {
         throw new Error('Failed to fetch response');
       } else {
-        const data = await response.json();
+        const data = await response;
         setConversation((prevConversation) => [
           ...prevConversation,
           { role: "user", text: message },
