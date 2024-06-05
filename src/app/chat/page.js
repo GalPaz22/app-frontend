@@ -85,7 +85,7 @@ export default function Chat() {
         setConversation((prevConversation) => [
           ...prevConversation,
           { role: "user", text: message },
-          { role: "assistant", text: data },
+          { role: "assistant", text: <p>{data}</p> },
         ]);
       }
     } catch (error) {
