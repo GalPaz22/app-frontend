@@ -66,8 +66,9 @@ export default function Chat() {
 
     try {
       const userId = Cookies.get("userId");
-      const response = await fetch(`${API_URL}/chat-response?message=${encodeURIComponent(message)}`, {
-        method: 'GET',
+      const response = await fetch(`${API_URL}/chat-response`, {
+        method: "POST",
+        body: JSON.stringify({ message }),
         headers: {
           Authorization: `Bearer ${userId}`,
         },
