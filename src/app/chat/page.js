@@ -101,8 +101,8 @@ export default function Chat() {
           if (line.startsWith('data:')) {
             try {
               const data = (line.substring(5));
-              if (data.choices[0].text !== '[DONE]') {
-                newGeneration += data.choices[0].text;
+              if (data.choices[0] !== '[DONE]') {
+                newGeneration += data.choices[0];
                 setGeneration(newGeneration);
               }
             } catch (error) {
