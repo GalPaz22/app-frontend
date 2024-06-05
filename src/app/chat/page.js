@@ -100,7 +100,7 @@ export default function Chat() {
         for (const line of lines) {
           if (line.startsWith('data:')) {
             try {
-              const data = JSON.parse(line.substring(5));
+              const data = (line.substring(5));
               if (data.content !== '[DONE]') {
                 newGeneration += data.content;
                 setGeneration(newGeneration);
