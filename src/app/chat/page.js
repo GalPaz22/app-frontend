@@ -95,11 +95,8 @@ export default function Chat() {
         break;
       }
 
-      const text = decoder.decode(value, { stream: true });
-      setGeneration((prevGeneration) => prevGeneration + text);
-
-      
-    
+      const reply = decoder.decode(value, { stream: true });
+      setGeneration((prevGeneration) => prevGeneration + reply);
 
     }
   } catch (error) {
