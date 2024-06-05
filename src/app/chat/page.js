@@ -73,7 +73,7 @@ export default function Chat() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userId}`,
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ response: message }),
       });
 
       if (!response.ok) {
