@@ -11,7 +11,7 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [authenticated, setAuthenticated] = useState(null);
-  const [generation, setGeneration] = useState(''); // For incremental updates
+  const [generation, setGeneration] = useState(""); // For incremental updates
   const router = useRouter();
 
   useEffect(() => {
@@ -65,6 +65,7 @@ export default function Chat() {
     setLoading(true);
     setGeneration(""); // Reset generation state
 
+    // Fetch response from backend and update the generation state for new message
     try {
       const userId = Cookies.get("userId");
       const response = await fetch(`${API_URL}/chat-response`, {
@@ -73,7 +74,7 @@ export default function Chat() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userId}`,
         },
-        body: JSON.stringify({ response: message }),
+        body: JSON.stringify({ message }),
       });
 
       if (!response.ok) {
@@ -83,18 +84,20 @@ export default function Chat() {
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let done = false;
+      let fullText = "";
 
       while (!done) {
         const { value, done: streamDone } = await reader.read();
         done = streamDone;
         const chunk = decoder.decode(value, { stream: true });
+        fullText += chunk;
         setGeneration((currentGeneration) => currentGeneration + chunk);
       }
 
       setConversation((prevConversation) => [
         ...prevConversation,
         { role: "user", text: message },
-        { role: "assistant", text: generation },
+        { role: "assistant", text: fullText },
       ]);
     } catch (error) {
       console.error("Error fetching response:", error);
@@ -107,7 +110,7 @@ export default function Chat() {
       ]);
     } finally {
       setLoading(false);
-      setMessage("");
+      setMessage(""); // Clear the input message
     }
   };
 
