@@ -82,7 +82,7 @@ export default function Chat() {
         setConversation((prevConversation) => [
           ...prevConversation,
           { role: "user", text: message },
-          { role: "assistant", text: data.response },
+          { role: "assistant", text: data.text },
         ]);
       }
     } catch (error) {
