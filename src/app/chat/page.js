@@ -66,33 +66,38 @@ export default function Chat() {
 
     try {
       const userId = Cookies.get("userId");
-      const response = await axios.post(`${API_URL}/chat-response`, { message }, {
-        responseType: 'stream', // Specify that the response should be treated as a stream
+      const eventSource = new EventSource(`${API_URL}/chat-response?message=${encodeURIComponent(message)}`, {
+        withCredentials: true,
         headers: {
           Authorization: `Bearer ${userId}`,
         },
       });
-
-      response.data.on('data', (chunk) => {
-        // Convert the chunk to a string and append it to the current generation
-        setGeneration(currentGeneration => currentGeneration + chunk.toString());
-      });
-
-      response.data.on('end', () => {
-        // Handle stream end if needed
-      });
-
-      response.data.on('error', (error) => {
+      
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.content === '[DONE]') {
+          eventSource.close();
+          setConversation((prevConversation) => [
+            ...prevConversation,
+            { role: "user", text: message },
+            { role: "assistant", text: generation },
+          ]);
+        } else {
+          setGeneration((currentGeneration) => currentGeneration + data.content);
+        }
+      };
+      
+      eventSource.onerror = (error) => {
         console.error('Stream error:', error);
-        // Handle stream error if needed
-      });
-
-      setConversation((prevConversation) => [
-        ...prevConversation,
-        { role: "user", text: message },
-        { role: "assistant", text: generation },
-      ]);
-
+        eventSource.close();
+        setConversation((prevConversation) => [
+          ...prevConversation,
+          {
+            role: "system",
+            text: "An error occurred while fetching the response.",
+          },
+        ]);
+      };
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
@@ -105,7 +110,7 @@ export default function Chat() {
     } finally {
       setLoading(false);
       setMessage("");
-    }
+    } 
   };
 
   const handleLogout = async () => {
