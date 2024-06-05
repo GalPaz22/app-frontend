@@ -11,6 +11,7 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [authenticated, setAuthenticated] = useState(null);
+  const [generation, setGeneration] = useState(''); // For incremental updates
   const router = useRouter();
 
   useEffect(() => {
@@ -62,6 +63,7 @@ export default function Chat() {
     }
 
     setLoading(true);
+    setGeneration(""); // Reset generation state
 
     try {
       const userId = Cookies.get("userId");
@@ -79,21 +81,20 @@ export default function Chat() {
       }
 
       const reader = response.body.getReader();
-      let chunks = '';
+      const decoder = new TextDecoder();
+      let done = false;
 
-      while (true) {
-        const { done, value } = await reader.read();
-
-        if (done) break;
-
-        chunks += new TextDecoder().decode(value);
+      while (!done) {
+        const { value, done: streamDone } = await reader.read();
+        done = streamDone;
+        const chunk = decoder.decode(value, { stream: true });
+        setGeneration((currentGeneration) => currentGeneration + chunk);
       }
 
-      const answer = chunks;
       setConversation((prevConversation) => [
         ...prevConversation,
         { role: "user", text: message },
-        { role: "assistant", text: answer.text },
+        { role: "assistant", text: generation },
       ]);
     } catch (error) {
       console.error("Error fetching response:", error);
