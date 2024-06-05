@@ -55,64 +55,72 @@ export default function Chat() {
     setMessage(e.target.value);
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!message) {
-    alert("Please enter a message.");
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const userId = Cookies.get("userId");
-
-    const response = await fetch(`${API_URL}/chat-response`, {
-      method: 'POST', // Changed to POST as per server code
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userId}`,
-      },
-      body: JSON.stringify({ message }), // Sending message in body as POST
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!message) {
+      alert("Please enter a message.");
+      return;
     }
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder('utf-8');
-     // Initialize generation here
+    setLoading(true);
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        setConversation((prevConversation) => [
-          ...prevConversation,
-          { role: "user", text: message },
-          { role: "assistant", text: generation },
-        ]);
-        break;
+    try {
+      const userId = Cookies.get("userId");
+      const response = await fetch(`${API_URL}/chat-response`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userId}`,
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const reply = decoder.decode(value, { stream: true });
-      setGeneration((prevGeneration) => prevGeneration + reply);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      setGeneration('');
 
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          setConversation((prevConversation) => [
+            ...prevConversation,
+            { role: "user", text: message },
+            { role: "assistant", text: generation },
+          ]);
+          break;
+        }
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data:')) {
+            const data = JSON.parse(line.substring(5));
+            if (data.content !== '[DONE]') {
+              setGeneration((currentGeneration) => currentGeneration + data.content);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching response:", error);
+      setConversation((prevConversation) => [
+        ...prevConversation,
+        {
+          role: "system",
+          text: "An error occurred while fetching the response.",
+        },
+      ]);
+    } finally {
+      setLoading(false);
+      setMessage("");
     }
-  } catch (error) {
-    console.error("Error fetching response:", error);
-    setConversation((prevConversation) => [
-      ...prevConversation,
-      {
-        role: "system",
-        text: "An error occurred while fetching the response.",
-      },
-    ]);
-  } finally {
-    setLoading(false);
-    setMessage("");
-  }
-};
+  };
+
   const handleLogout = async () => {
     Cookies.remove("userId");
     setAuthenticated(false);
@@ -124,8 +132,6 @@ export default function Chat() {
     }
   };
 
- 
-
   if (authenticated === null) {
     return (
       <div className="min-h-screen flex justify-center items-center">
@@ -133,8 +139,6 @@ export default function Chat() {
       </div>
     );
   }
-
- 
 
   return (
     <>
