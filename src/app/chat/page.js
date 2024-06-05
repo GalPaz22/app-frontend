@@ -66,9 +66,8 @@ export default function Chat() {
 
     try {
       const userId = Cookies.get("userId");
-      const response = await fetch(`${API_URL}/chat-response`, {
-        method: "POST",
-        body: JSON.stringify({ message }),
+      const response = await fetch(`${API_URL}/chat-response?message=${encodeURIComponent(message)}`, {
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${userId}`,
         },
@@ -84,8 +83,7 @@ export default function Chat() {
             ...prevConversation,
             { role: "user", text: message },
             { role: "assistant", text: generation },
-          ]);
-          break;
+          ]);          break;
         }
 
         const chunk = decoder.decode(value);
@@ -95,8 +93,7 @@ export default function Chat() {
           if (line.startsWith('data:')) {
             const data = JSON.parse(line.substring(5));
             if (data.content !== '[DONE]') {
-              setGeneration((currentGeneration) => currentGeneration + data.content);
-            }
+              setGen            }
           }
         }
       }
@@ -106,8 +103,7 @@ export default function Chat() {
         ...prevConversation,
         {
           role: "system",
-          text: "An error occurred while fetching the response.",
-        },
+          text: "An error occurred while fetching the response.",        },
       ]);
     } finally {
       setLoading(false);
