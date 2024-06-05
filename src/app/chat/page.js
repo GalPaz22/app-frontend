@@ -66,50 +66,57 @@ export default function Chat() {
 
     try {
       const userId = Cookies.get("userId");
-      const response = await fetch(`${API_URL}/chat-response?message=${encodeURIComponent(message)}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${userId}`,
-        },
-      });
+    const response = await fetch(`${API_URL}/chat-response?message=${encodeURIComponent(message)}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${userId}`,
+      },
+    });
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder('utf-8');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) {
-          setConversation((prevConversation) => [
-            ...prevConversation,
-            { role: "user", text: message },
-            { role: "assistant", text: generation },
-          ]);          break;
-        }
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder('utf-8');
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        setConversation((prevConversation) => [
+          ...prevConversation,
+          { role: "user", text: message },
+          { role: "assistant", text: generation },
+        ]);
+        break;
+      }
 
-        for (const line of lines) {
-          if (line.startsWith('data:')) {
-            const data = JSON.parse(line.substring(5));
-            if (data.content !== '[DONE]') {
-              setGen            }
+      const chunk = decoder.decode(value);
+      const lines = chunk.split('\n');
+
+      for (const line of lines) {
+        if (line.startsWith('data:')) {
+          const data = JSON.parse(line.substring(5));
+          if (data.content !== '[DONE]') {
+            setGeneration((currentGeneration) => currentGeneration + data.content);
           }
         }
       }
-    } catch (error) {
-      console.error("Error fetching response:", error);
-      setConversation((prevConversation) => [
-        ...prevConversation,
-        {
-          role: "system",
-          text: "An error occurred while fetching the response.",        },
-      ]);
-    } finally {
-      setLoading(false);
-      setMessage("");
     }
-  };
+  } catch (error) {
+    console.error("Error fetching response:", error);
+    setConversation((prevConversation) => [
+      ...prevConversation,
+      {
+        role: "system",
+        text: "An error occurred while fetching the response.",
+      },
+    ]);
+  } finally {
+    setLoading(false);
+    setMessage("");
+  }
+};
 
   const handleLogout = async () => {
     Cookies.remove("userId");
