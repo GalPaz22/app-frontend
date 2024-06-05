@@ -66,38 +66,39 @@ export default function Chat() {
 
     try {
       const userId = Cookies.get("userId");
-      const eventSource = new EventSource(`${API_URL}/chat-response?message=${encodeURIComponent(message)}`, {
-        withCredentials: true,
+      const response = await fetch(`${API_URL}/chat-response?message=${encodeURIComponent(message)}`, {
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${userId}`,
         },
       });
 
-      eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.content === '[DONE]') {
-          eventSource.close();
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
           setConversation((prevConversation) => [
             ...prevConversation,
             { role: "user", text: message },
             { role: "assistant", text: generation },
           ]);
-        } else {
-          setGeneration((currentGeneration) => currentGeneration + data.content);
+          break;
         }
-      };
 
-      eventSource.onerror = (error) => {
-        console.error('Stream error:', error);
-        eventSource.close();
-        setConversation((prevConversation) => [
-          ...prevConversation,
-          {
-            role: "system",
-            text: "An error occurred while fetching the response.",
-          },
-        ]);
-      };
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data:')) {
+            const data = JSON.parse(line.substring(5));
+            if (data.content !== '[DONE]') {
+              setGeneration((currentGeneration) => currentGeneration + data.content);
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
@@ -123,6 +124,8 @@ export default function Chat() {
       console.error("Error during logout:", error);
     }
   };
+
+ 
 
   if (authenticated === null) {
     return (
