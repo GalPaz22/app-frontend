@@ -81,7 +81,7 @@ export default function Chat() {
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder('utf-8');
-      setGeneration('');
+      let newGeneration = '';
 
       while (true) {
         const { done, value } = await reader.read();
@@ -89,7 +89,7 @@ export default function Chat() {
           setConversation((prevConversation) => [
             ...prevConversation,
             { role: "user", text: message },
-            { role: "assistant", text: generation },
+            { role: "assistant", text: newGeneration },
           ]);
           break;
         }
@@ -99,9 +99,14 @@ export default function Chat() {
 
         for (const line of lines) {
           if (line.startsWith('data:')) {
-            const data =(line.substring(5));
-            if (data.text !== '[DONE]') {
-              setGeneration((currentGeneration) => currentGeneration + data.text);
+            try {
+              const data = JSON.parse(line.substring(5));
+              if (data.content !== '[DONE]') {
+                newGeneration += data.content;
+                setGeneration(newGeneration);
+              }
+            } catch (error) {
+              console.error("Error parsing JSON:", error, line);
             }
           }
         }
