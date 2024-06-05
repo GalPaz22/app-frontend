@@ -55,22 +55,25 @@ export default function Chat() {
     setMessage(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!message) {
-      alert("Please enter a message.");
-      return;
-    }
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!message) {
+    alert("Please enter a message.");
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const userId = Cookies.get("userId");
-    const response = await fetch(`${API_URL}/chat-response`(message), {
-      method: 'GET',
+  try {
+    const userId = Cookies.get("userId");
+
+    const response = await fetch(`${API_URL}/chat-response`, {
+      method: 'POST', // Changed to POST as per server code
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userId}`,
       },
+      body: JSON.stringify({ message }), // Sending message in body as POST
     });
 
     if (!response.ok) {
@@ -79,6 +82,7 @@ export default function Chat() {
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');
+    // Initialize generation here
 
     while (true) {
       const { done, value } = await reader.read();
@@ -99,6 +103,7 @@ export default function Chat() {
           const data = JSON.parse(line.substring(5));
           if (data.content !== '[DONE]') {
             setGeneration((currentGeneration) => currentGeneration + data.content);
+            generation += data.content; // Update generation for final conversation
           }
         }
       }
@@ -117,7 +122,6 @@ export default function Chat() {
     setMessage("");
   }
 };
-
   const handleLogout = async () => {
     Cookies.remove("userId");
     setAuthenticated(false);
