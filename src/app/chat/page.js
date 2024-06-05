@@ -76,17 +76,35 @@ export default function Chat() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch response');
-      } else {
-        const data = await response;
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-       
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      setGeneration('');
 
-        setConversation((prevConversation) => [
-          ...prevConversation,
-          { role: "user", text: message },
-          { role: "assistant", text: <p>{data}</p> },
-        ]);
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          setConversation((prevConversation) => [
+            ...prevConversation,
+            { role: "user", text: message },
+            { role: "assistant", text: generation },
+          ]);
+          break;
+        }
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data:')) {
+            const data = JSON.parse(line.substring(5));
+            if (data.content !== '[DONE]') {
+              setGeneration((currentGeneration) => currentGeneration + data.content);
+            }
+          }
+        }
       }
     } catch (error) {
       console.error("Error fetching response:", error);
