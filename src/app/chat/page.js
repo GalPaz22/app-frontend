@@ -82,7 +82,7 @@ export default function Chat() {
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');
-    let generation = ""; // Initialize generation here
+     // Initialize generation here
 
     while (true) {
       const { done, value } = await reader.read();
