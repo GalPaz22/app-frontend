@@ -1,5 +1,6 @@
-"use client";
+'use client';
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Navbar from "../Navbar";
@@ -10,9 +11,14 @@ export default function Chat() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
-  const [authenticated, setAuthenticated] = useState(null);
-  const [generation, setGeneration] = useState(""); // For incremental updates
+  const [authenticated, setAuthenticated] = useState(null); 
+  const [generation, setGeneration] = useState(''); // null indicates loading state
   const router = useRouter();
+
+  const axiosInstance = axios.create({
+    baseURL: API_URL,
+    withCredentials: true,
+  });
 
   useEffect(() => {
     checkAuthentication();
@@ -27,19 +33,13 @@ export default function Chat() {
         return;
       }
 
-      const res = await fetch(`${API_URL}/check-auth`, {
+      const res = await axiosInstance.get("/check-auth", {
         headers: {
           Authorization: `Bearer ${userId}`,
         },
       });
 
-      if (!res.ok) {
-        setAuthenticated(false);
-        return;
-      }
-
-      const data = await res.json();
-      setAuthenticated(data.authenticated);
+      setAuthenticated(res.data.authenticated);
     } catch (error) {
       setAuthenticated(false);
     }
@@ -63,42 +63,36 @@ export default function Chat() {
     }
 
     setLoading(true);
-    setGeneration(""); // Reset generation state
 
-    // Fetch response from backend and update the generation state for new message
     try {
       const userId = Cookies.get("userId");
-      const response = await fetch(`${API_URL}/chat-response`, {
-        method: "POST",
+      const response = await axios.post(`${API_URL}/chat-response`, { message }, {
+        responseType: 'stream', // Specify that the response should be treated as a stream
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${userId}`,
         },
-        body: JSON.stringify({ message }),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      response.data.on('data', (chunk) => {
+        // Convert the chunk to a string and append it to the current generation
+        setGeneration(currentGeneration => currentGeneration + chunk.toString());
+      });
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let done = false;
-      let fullText = "";
+      response.data.on('end', () => {
+        // Handle stream end if needed
+      });
 
-      while (!done) {
-        const { value, done: streamDone } = await reader.read();
-        done = streamDone;
-        const chunk = decoder.decode(value, { stream: true });
-        fullText += chunk;
-        setGeneration((currentGeneration) => currentGeneration + chunk);
-      }
+      response.data.on('error', (error) => {
+        console.error('Stream error:', error);
+        // Handle stream error if needed
+      });
 
       setConversation((prevConversation) => [
         ...prevConversation,
         { role: "user", text: message },
-        { role: "assistant", text: fullText },
+        { role: "assistant", text: generation },
       ]);
+
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
@@ -110,7 +104,7 @@ export default function Chat() {
       ]);
     } finally {
       setLoading(false);
-      setMessage(""); // Clear the input message
+      setMessage("");
     }
   };
 
@@ -118,9 +112,7 @@ export default function Chat() {
     Cookies.remove("userId");
     setAuthenticated(false);
     try {
-      await fetch(`${API_URL}/logout`, {
-        method: "POST",
-      });
+      await axiosInstance.post("/logout", {});
       router.push("/login");
     } catch (error) {
       console.error("Error during logout:", error);
@@ -186,7 +178,7 @@ export default function Chat() {
                       direction: "rtl",
                       textAlign: "right",
                       maxWidth: "70%",
-                    }}
+                    }} // Apply RTL direction and limit width
                   >
                     <strong>
                       {entry.role === "user" ? "You" : "Assistant"}:
