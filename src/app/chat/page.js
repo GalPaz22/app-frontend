@@ -11,8 +11,8 @@ export default function Chat() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
-  const [authenticated, setAuthenticated] = useState(null); 
-  const [generation, setGeneration] = useState(''); // null indicates loading state
+  const [authenticated, setAuthenticated] = useState(null);
+  const [generation, setGeneration] = useState('');
   const router = useRouter();
 
   const axiosInstance = axios.create({
@@ -72,7 +72,7 @@ export default function Chat() {
           Authorization: `Bearer ${userId}`,
         },
       });
-      
+
       eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.content === '[DONE]') {
@@ -86,7 +86,7 @@ export default function Chat() {
           setGeneration((currentGeneration) => currentGeneration + data.content);
         }
       };
-      
+
       eventSource.onerror = (error) => {
         console.error('Stream error:', error);
         eventSource.close();
@@ -110,7 +110,7 @@ export default function Chat() {
     } finally {
       setLoading(false);
       setMessage("");
-    } 
+    }
   };
 
   const handleLogout = async () => {
@@ -131,6 +131,8 @@ export default function Chat() {
       </div>
     );
   }
+
+ 
 
   return (
     <>
