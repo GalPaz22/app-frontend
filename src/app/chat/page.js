@@ -1,9 +1,11 @@
-"use client";
+'use client';
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Navbar from "../Navbar";
+
+
 
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 
@@ -12,7 +14,7 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [authenticated, setAuthenticated] = useState(null);
-  const [generation, setGeneration] = useState("");
+  const [generation, setGeneration] = useState('');
   const router = useRouter();
 
   const axiosInstance = axios.create({
@@ -67,9 +69,9 @@ export default function Chat() {
     try {
       const userId = Cookies.get("userId");
       const response = await fetch(`${API_URL}/chat-response`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${userId}`,
         },
         body: JSON.stringify({ message }),
@@ -80,25 +82,26 @@ export default function Chat() {
       }
 
       const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-     
+      const decoder = new TextDecoder('utf-8');
+      let newGeneration = '';
 
       while (true) {
         const { done, value } = await reader.read();
-        const chunk = decoder.decode(value);
-         console.log(chunk);
         
-        setGeneration((prevGeneration) => prevGeneration + chunk.text);
+          setConversation((prevConversation) => [
+            ...prevConversation,
+            { role: "user", text: message },
+            { role: "assistant", text: newGeneration },
+          ]);
 
         if (done) {
           break;
         }
+
+        const chunk = decoder.decode(value);
+        newGeneration += chunk;
+        setGeneration(newGeneration);
       }
-      setConversation((prevConversation) => [
-        ...prevConversation,
-        { role: "user", text: message },
-        { role: "assistant", text: generation },
-      ]);
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
