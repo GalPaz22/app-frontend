@@ -86,6 +86,7 @@ export default function Chat() {
       while (true) {
         const { done, value } = await reader.read();
         const chunk = decoder.decode(value);
+         console.log(chunk);
         
         setGeneration( chunk);
 
