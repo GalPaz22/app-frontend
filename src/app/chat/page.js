@@ -92,20 +92,21 @@ export default function Chat() {
 
       while (true) {
         const { done, value } = await reader.read();
-        
-          setConversation((prevConversation) => [
-            ...prevConversation,
-            { text: newGeneration },
-          ]);
-
-        if (done) {
-          break;
-        }
-
+      
         const chunk = decoder.decode(value);
         const cleanedChunk = chunk.replace(/data:\s*/g, '');
         newGeneration += cleanedChunk;
         setGeneration(newGeneration);
+
+        if (done) {
+          break;
+        }
+        setConversation((prevConversation) => [
+          ...prevConversation,
+          { role: "user", text: message },
+          { role: "assistant", text: newGeneration },
+        ]);
+
       }
       
     } catch (error) {
