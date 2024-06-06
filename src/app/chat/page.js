@@ -98,25 +98,13 @@ export default function Chat() {
 
         const chunk = decoder.decode(value);
         const lines = chunk.split('\n');
-        console.log(lines);
-        
 
         for (const line of lines) {
-            try {
-              
-              const data =line.replace('data:', '').trim();
-              console.log(data);
-              if (data !== '[DONE]' || data !== '') {
-                JSON.parse(data);
-                newGeneration += data.choices[0].delta.content;
-                setGeneration(newGeneration);
-              }
-            } catch (error) {
-              console.error("Error parsing JSON:", error, line);
-            }
+          if (line.trim() !== '') {
+            newGeneration += line;
           }
         }
-      
+      }
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
