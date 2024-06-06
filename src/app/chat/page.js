@@ -100,6 +100,7 @@ export default function Chat() {
 
         const chunk = decoder.decode(value);
         const cleanedChunk = chunk.replace(/data\s*/g, '');
+        newGeneration += cleanedChunk;
         setGeneration(newGeneration);
       }
     } catch (error) {
