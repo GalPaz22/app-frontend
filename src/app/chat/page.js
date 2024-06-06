@@ -99,7 +99,11 @@ export default function Chat() {
         }
 
         const chunk = decoder.decode(value);
-        newGeneration += chunk.replace('data: ', '');
+        const lines = chunk.split('\n');
+        
+        // Filter out lines that contain the word 'data' or are empty
+        const filteredLines = lines.filter(line => !line.startsWith('data: ') && line.trim() !== '');;
+        newGeneration += filteredLines.join('');
         setGeneration(newGeneration);
       }
     } catch (error) {
