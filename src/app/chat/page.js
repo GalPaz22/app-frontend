@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Navbar from "../Navbar";
 
+
+
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 
 export default function Chat() {
@@ -65,40 +67,39 @@ export default function Chat() {
     setLoading(true);
 
     try {
-     
-      const eventSource = new EventSource(`${API_URL}/chat-response`, {
+      const userId = Cookies.get("userId");
+      const response = await fetch(`${API_URL}/chat-response`, {
+        method: 'POST',
         headers: {
-          Authorization: `Bearer ${Cookies.get("userId")}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userId}`,
         },
+        body: JSON.stringify({ message }),
       });
 
-      eventSource.onmessage = (event) => {
-        if (event.data === "[DONE]") {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let newGeneration = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
           setConversation((prevConversation) => [
             ...prevConversation,
             { role: "user", text: message },
-            { role: "assistant", text: generation },
+            { role: "assistant", text: newGeneration },
           ]);
-          setLoading(false);
-          eventSource.close();
-          setMessage("");
-        } else {
-          setGeneration((prevGeneration) => prevGeneration + event.data);
+          break;
         }
-      };
 
-      eventSource.onerror = (error) => {
-        console.error("Error fetching response:", error);
-        setConversation((prevConversation) => [
-          ...prevConversation,
-          {
-            role: "system",
-            text: "An error occurred while fetching the response.",
-          },
-        ]);
-        setLoading(false);
-        eventSource.close();
-      };
+        const chunk = decoder.decode(value);
+        newGeneration += chunk;
+        setGeneration(newGeneration);
+      }
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
@@ -108,7 +109,9 @@ export default function Chat() {
           text: "An error occurred while fetching the response.",
         },
       ]);
+    } finally {
       setLoading(false);
+      setMessage("");
     }
   };
 
