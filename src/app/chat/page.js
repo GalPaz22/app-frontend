@@ -101,13 +101,13 @@ export default function Chat() {
         if (done) {
           break;
         }
-        setConversation((prevConversation) => [
-          ...prevConversation,
-          { role: "user", text: message },
-          { role: "assistant", text: newGeneration },
-        ]);
-
+        
       }
+      setConversation((prevConversation) => [
+        ...prevConversation,
+        { role: "user", text: message },
+        { role: "assistant", text: newGeneration },
+      ]);
       
     } catch (error) {
       console.error("Error fetching response:", error);
