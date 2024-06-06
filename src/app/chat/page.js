@@ -88,7 +88,7 @@ export default function Chat() {
         const chunk = decoder.decode(value);
          console.log(chunk);
         
-        setGeneration((prevGeneration) => prevGeneration + chunk);
+        setGeneration((prevGeneration) => prevGeneration + chunk.text);
 
         if (done) {
           break;
