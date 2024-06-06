@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Navbar from "../Navbar";
+import { json } from "stream/consumers";
 
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 
@@ -96,16 +97,17 @@ export default function Chat() {
 
         const chunk = decoder.decode(value);
         const lines = chunk.split('\n');
-        console.log(lines);
+        
 
         for (const line of lines) {
           if (line.startsWith('data:')) {
             try {
-              console.log(line);
-              const data = JSON.parse(line.substring(5));
+              
+              const data =line.replace('data:', '').trim();
               console.log(data);
-              if (data.choices !== '[DONE]') {
-                newGeneration += data.content;
+              if (data !== '[DONE]') {
+                JSON.parse(data);
+                newGeneration += data.choices[0].delta.content;
                 setGeneration(newGeneration);
               }
             } catch (error) {
