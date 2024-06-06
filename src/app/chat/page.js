@@ -66,7 +66,11 @@ export default function Chat() {
 
     try {
      
-      const eventSource = new EventSource(`${API_URL}/chat-response?message=${message}`);
+      const eventSource = new EventSource(`${API_URL}/chat-response`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("userId")}`,
+        },
+      });
 
       eventSource.onmessage = (event) => {
         if (event.data === "[DONE]") {
