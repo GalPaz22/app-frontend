@@ -87,12 +87,14 @@ export default function Chat() {
 
       while (true) {
         const { done, value } = await reader.read();
-        if (done) {
+        
           setConversation((prevConversation) => [
             ...prevConversation,
             { role: "user", text: message },
             { role: "assistant", text: newGeneration },
           ]);
+
+        if (done) {
           break;
         }
 
