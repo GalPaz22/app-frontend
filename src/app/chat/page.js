@@ -98,15 +98,15 @@ export default function Chat() {
 
         const chunk = decoder.decode(value);
         const lines = chunk.split('\n');
+        console.log(lines);
         
 
         for (const line of lines) {
-          if (line.startsWith('data:')) {
             try {
               
               const data =line.replace('data:', '').trim();
               console.log(data);
-              if (data !== '[DONE]') {
+              if (data !== '[DONE]' || data !== '') {
                 JSON.parse(data);
                 newGeneration += data.choices[0].delta.content;
                 setGeneration(newGeneration);
@@ -116,7 +116,7 @@ export default function Chat() {
             }
           }
         }
-      }
+      
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
