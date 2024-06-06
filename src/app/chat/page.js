@@ -81,13 +81,13 @@ export default function Chat() {
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
-      let newGeneration = "";
+     
 
       while (true) {
         const { done, value } = await reader.read();
         const chunk = decoder.decode(value);
-        newGeneration += chunk;
-        setGeneration(newGeneration);
+        
+        setGeneration( chunk);
 
         if (done) {
           break;
