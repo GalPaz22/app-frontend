@@ -84,25 +84,28 @@ export default function Chat() {
       const reader = response.body.getReader();
       const decoder = new TextDecoder('utf-8');
       let newGeneration = '';
+      setConversation((prevConversation) => [
+        ...prevConversation,
+        { role: "user", text: message },
+        { role: "assistant", text: newGeneration },
+      ]);
 
       while (true) {
         const { done, value } = await reader.read();
+        setGeneration(newGeneration)
         
-          setConversation((prevConversation) => [
-            ...prevConversation,
-            { role: "user", text: message },
-            { role: "assistant", text: newGeneration },
-          ]);
+        
 
         if (done) {
           break;
         }
 
         const chunk = decoder.decode(value);
-        const cleanedChunk = chunk.replace(/data\s*/g, '');
+        const cleanedChunk = chunk.replace(/data:\s*/g, '');
         newGeneration += cleanedChunk;
         setGeneration(newGeneration);
       }
+      
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
