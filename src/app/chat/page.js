@@ -92,9 +92,11 @@ export default function Chat() {
 
       while (true) {
         const { done, value } = await reader.read();
-        setGeneration(newGeneration)
         
-        
+          setConversation((prevConversation) => [
+            ...prevConversation,
+            { text: newGeneration },
+          ]);
 
         if (done) {
           break;
