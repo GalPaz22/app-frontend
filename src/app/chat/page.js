@@ -65,21 +65,8 @@ export default function Chat() {
     setLoading(true);
 
     try {
-      fetch(`${API_URL}/chat-response`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("userId")}`,
-        },
-        body: JSON.stringify({ message }),
-      })
      
-      const eventSource = new EventSource(`${API_URL}/chat-response`, {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("userId")}`,
-        },
-      
-      });
+      const eventSource = new EventSource(`${API_URL}/chat-response?message=${message}`);
 
       eventSource.onmessage = (event) => {
         if (event.data === "[DONE]") {
