@@ -99,7 +99,7 @@ export default function Chat() {
         }
 
         const chunk = decoder.decode(value);
-        newGeneration += chunk.data;
+        newGeneration += chunk.content;
         setGeneration(newGeneration);
       }
     } catch (error) {
