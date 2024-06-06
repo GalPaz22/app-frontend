@@ -96,6 +96,7 @@ export default function Chat() {
 
         const chunk = decoder.decode(value);
         const lines = chunk.split('\n');
+        console.log(lines);
 
         for (const line of lines) {
           if (line.startsWith('data:')) {
