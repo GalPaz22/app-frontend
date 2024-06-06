@@ -97,13 +97,8 @@ export default function Chat() {
         }
 
         const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
-
-        for (const line of lines) {
-          if (line.trim() !== '') {
-            newGeneration += line;
-          }
-        }
+        newGeneration += chunk;
+        setGeneration(newGeneration);
       }
     } catch (error) {
       console.error("Error fetching response:", error);
