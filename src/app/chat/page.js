@@ -68,9 +68,9 @@ export default function Chat() {
       alert("Please enter a message.");
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
       const userId = Cookies.get("userId");
       const response = await fetch(`${API_URL}/chat-response`, {
@@ -81,49 +81,48 @@ export default function Chat() {
         },
         body: JSON.stringify({ message }),
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
+  
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
       let newGeneration = '';
       let buffer = '';
-
+  
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-
+  
         const chunk = decoder.decode(value, { stream: true });
         buffer += chunk;
-
+  
         const lines = buffer.split('\n');
         buffer = lines.pop(); // Keep the last incomplete line in the buffer
-
+  
         lines.forEach(line => {
           if (line.startsWith('data: ')) {
             const jsonData = line.replace('data: ', '').trim();
             if (jsonData !== '[DONE]') {
-              try {
-                const content = JSON.parse(jsonData);
-                newGeneration += content;
-                setGeneration(newGeneration);
-              } catch (e) {
-                console.error("Error parsing JSON:", e);
-              }
+              newGeneration += jsonData;
+              setGeneration(newGeneration);
+            } else {
+              // Handle the end of the stream
+              setConversation((prevConversation) => [
+                ...prevConversation,
+                { role: "user", text: message },
+                { role: "assistant", text: newGeneration },
+              ]);
+              setGeneration(''); // Reset generation after the full message is received
+              setLoading(false);
+              setMessage("");
+              return; // Exit the function early
             }
           }
         });
       }
-
-      setConversation((prevConversation) => [
-        ...prevConversation,
-        { role: "user", text: message },
-        { role: "assistant", text: newGeneration },
-      ]);
-      setGeneration(''); // Reset generation after the full message is received
-
+  
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
@@ -133,11 +132,11 @@ export default function Chat() {
           text: "An error occurred while fetching the response.",
         },
       ]);
-    } finally {
       setLoading(false);
       setMessage("");
     }
   };
+  
 
   const handleLogout = async () => {
     Cookies.remove("userId");
