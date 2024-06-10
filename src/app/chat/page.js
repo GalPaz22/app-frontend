@@ -93,34 +93,46 @@ export default function Chat() {
   
       while (true) {
         const { done, value } = await reader.read();
-        if (done) break;
+        if (value) {
+          const chunk = decoder.decode(value, { stream: true });
+          buffer += chunk;
   
-        const chunk = decoder.decode(value, { stream: true });
-        buffer += chunk;
+          const lines = buffer.split('\n');
+          buffer = lines.pop(); // Keep the last incomplete line in the buffer
   
-        const lines = buffer.split('\n');
-        buffer = lines.pop(); // Keep the last incomplete line in the buffer
-  
-        lines.forEach(line => {
-          if (line.startsWith('data: ')) {
-            const jsonData = line.replace('data: ', '').trim();
-            if (jsonData !== '[DONE]') {
+          lines.forEach(line => {
+            if (line.startsWith('data: ')) {
+              const jsonData = line.replace('data: ', '').trim();
               newGeneration += jsonData;
               setGeneration(newGeneration);
-            } else {
-              // Handle the end of the stream
-              setConversation((prevConversation) => [
-                ...prevConversation,
-                { role: "user", text: message },
-                { role: "assistant", text: newGeneration },
-              ]);
-              setGeneration(''); // Reset generation after the full message is received
-              setLoading(false);
-              setMessage("");
-              return; // Exit the function early
             }
+          });
+        }
+  
+        if (done) {
+          // Handle any remaining buffer content
+          if (buffer) {
+            const remainingLines = buffer.split('\n');
+            remainingLines.forEach(line => {
+              if (line.startsWith('data: ')) {
+                const jsonData = line.replace('data: ', '').trim();
+                newGeneration += jsonData;
+                setGeneration(newGeneration);
+              }
+            });
           }
-        });
+  
+          // Update conversation once the stream is done
+          setConversation((prevConversation) => [
+            ...prevConversation,
+            { role: "user", text: message },
+            { role: "assistant", text: newGeneration },
+          ]);
+          setGeneration(''); // Reset generation after the full message is received
+          setLoading(false);
+          setMessage("");
+          break; // Exit the loop
+        }
       }
   
     } catch (error) {
@@ -136,7 +148,7 @@ export default function Chat() {
       setMessage("");
     }
   };
-  
+
 
   const handleLogout = async () => {
     Cookies.remove("userId");
