@@ -1,5 +1,6 @@
 // components/Navbar.js
 import Link from "next/link";
+import Logout from "./Logout";
 
 const Navbar = () => {
   return (
@@ -19,6 +20,8 @@ const Navbar = () => {
             </span>
           </Link>
         </div>
+
+        <Logout />
       </div>
     </nav>
   );
