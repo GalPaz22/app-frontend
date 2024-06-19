@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
-import Navbar from "../Navbar";
+
 
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 

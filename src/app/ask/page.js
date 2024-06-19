@@ -88,6 +88,7 @@ export default function Home() {
       });
 
       setSessionId(res.data.sessionId);
+      console.log("Session ID:", res.data.sessionId);
       alert("File uploaded and embedded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
