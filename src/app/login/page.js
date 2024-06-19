@@ -31,6 +31,9 @@ export default function LoginPage() {
       // Set a cookie with the userId
       Cookies.set("userId", userId, { expires: 1 / 24 }); // Expires in 1 day
 
+      // Set a cookie with the session ID
+      Cookies.set("sessionId", sessionId, { expires: 1 / 24 });
+
       // Redirect to the "ask" page after successful login
       console.log("Login successful");
       window.location.href = "/ask";
