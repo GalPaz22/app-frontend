@@ -82,9 +82,9 @@ export default function Home() {
       formData.append("file", file);
       const sessionId = Cookies.get("sessionId");
 
-      formData.append("sessionId", sessionId);
+      
 
-      const res = await axios.post(`${API_URL}/embed-pdf`, formData,  {
+      const res = await axios.post(`${API_URL}/embed-pdf`, formData, sessionId, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
