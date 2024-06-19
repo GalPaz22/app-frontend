@@ -87,7 +87,9 @@ export default function Home() {
       const res = await axios.post(`${API_URL}/embed-pdf`, formData, sessionId, {
         headers: {
           "Content-Type": "multipart/form-data",
+
         },
+        body: JSON.stringify({ sessionId }),
       });
 
       setSessionId(res.data.sessionId);
