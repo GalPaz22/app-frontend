@@ -163,44 +163,25 @@ export default function Chat() {
               {conversation.map((msg, index) => (
                 <div
                   key={index}
-                  style={{
-                    display: "flex",
-                    flexDirection: msg.role === "user" ? "row" : "row-reverse",
-                    marginBottom: "8px",
-                  }}
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} mb-2`}
                 >
-                  <div
-                    className={`p-2 border rounded-md ${
-                      msg.role === "user" ? "bg-gray-200" : "bg-gray-100"
-                    }`}
-                    style={{
-                      direction: "rtl",
-                      textAlign: "right",
-                      maxWidth: "70%",
-                    }} // Apply RTL direction and limit width
-                  >
-                    <strong>{msg.role === "user" ? "You" : "Assistant"}:</strong>{" "}
-                    {msg.text}
+                  <div className={`p-2 rounded-md ${msg.role === "user" ? "bg-gray-200" : "bg-gray-100"} max-w-3/4`}>
+                    <strong className="block mb-1 text-sm text-gray-600">
+                      {msg.role === "user" ? "You" : "Assistant"}:
+                    </strong>
+                    <div className={`${msg.text.startsWith("```") ? "bg-black text-white p-2 rounded" : ""}`}>
+                      {msg.text}
+                    </div>
                   </div>
                 </div>
               ))}
               {loading && (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row-reverse",
-                    marginBottom: "8px",
-                  }}
-                >
-                  <div
-                    className="p-2 border rounded-md bg-gray-100"
-                    style={{
-                      direction: "rtl",
-                      textAlign: "right",
-                      maxWidth: "70%",
-                    }}
-                  >
-                    <strong>Assistant:</strong> {generation}
+                <div className="flex justify-end mb-2">
+                  <div className="p-2 rounded-md bg-gray-100 max-w-3/4">
+                    <strong className="block mb-1 text-sm text-gray-600">Assistant:</strong>
+                    <div className="bg-black text-white p-2 rounded">
+                      {generation}
+                    </div>
                   </div>
                 </div>
               )}
