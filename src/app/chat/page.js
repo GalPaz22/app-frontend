@@ -157,7 +157,7 @@ export default function Chat() {
         <div className="container mx-auto p-4 rounded-md bg-white shadow-lg flex flex-col justify-between h-4/5">
           <div className="flex-grow overflow-y-auto mb-4" ref={chatContainerRef} style={{ maxHeight: "calc(100vh - 200px)" }}>
             <div className="flex justify-between"> 
-              <h1 className="text-3xl font-bold mb-4">ChatGPT- English</h1>
+              <h1 className="text-3xl font-bold mb-4">ChatGPT-4o</h1>
             </div>
             <div id="response-container" className="overflow-y-auto whitespace-wrap">
               {conversation.map((msg, index) => (
