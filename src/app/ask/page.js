@@ -81,6 +81,7 @@ export default function Home() {
       const formData = new FormData();
       formData.append("file", file);
       const sessionId = Cookies.get("sessionId");
+      formData.append("sessionId", sessionId);
 
       
 
@@ -89,7 +90,6 @@ export default function Home() {
           "Content-Type": "multipart/form-data",
 
         },
-        body: JSON.stringify({ sessionId }),
       });
 
       setSessionId(res.data.sessionId);
