@@ -83,14 +83,16 @@ export default function Home() {
       const sessionId = Cookies.get("sessionId");
       formData.append("sessionId", sessionId);
 
-      
-
-      const res = await axios.post(`${API_URL}/embed-pdf`, formData, sessionId, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-
-        },
-      });
+      const res = await axios.post(
+        `${API_URL}/embed-pdf`,
+        formData,
+        sessionId,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       setSessionId(res.data.sessionId);
       console.log("Session ID:", res.data.sessionId);
@@ -102,11 +104,30 @@ export default function Home() {
       setLoading(false);
     }
   };
+  const handleCleanNamespace = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`${API_URL}/clean-namespace`, {
+        sessionId,
+      });
+      alert("Namespace cleaned successfully!");
+      // Optionally, you can reset any relevant state here
+      setConversation([]);
+      // Add any other state resets as needed
+    } catch (error) {
+      console.error("Error cleaning namespace:", error);
+      alert("An error occurred while cleaning the namespace.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!question ) {
-      alert("Please enter a question, upload a PDF file, and provide an API key.");
+    if (!question) {
+      alert(
+        "Please enter a question, upload a PDF file, and provide an API key."
+      );
       return;
     }
 
@@ -207,6 +228,12 @@ export default function Home() {
           >
             Upload and Embed
           </button>
+          <button
+            onClick={handleCleanNamespace}
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-2"
+          >
+            Clean
+          </button>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <input
@@ -227,17 +254,22 @@ export default function Home() {
           </form>
           {loading && <div className="mt-4 text-gray-700">Loading...</div>}
           <div id="response-container" className="mt-4">
-            {conversation.slice().reverse().map((entry, index) => (
-              <div
-                key={index}
-                className={`p-2 border rounded-md mb-2 ${
-                  entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
-                }`}
-              >
-                <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
-                {entry.text}
-              </div>
-            ))}
+            {conversation
+              .slice()
+              .reverse()
+              .map((entry, index) => (
+                <div
+                  key={index}
+                  className={`p-2 border rounded-md mb-2 ${
+                    entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
+                  }`}
+                >
+                  <strong>
+                    {entry.role === "user" ? "You" : "Assistant"}:
+                  </strong>{" "}
+                  {entry.text}
+                </div>
+              ))}
           </div>
         </div>
       </div>
