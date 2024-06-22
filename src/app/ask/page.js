@@ -107,6 +107,8 @@ export default function Home() {
   const handleCleanNamespace = async () => {
     try {
       setLoading(true);
+
+      const sessionId = Cookies.get("sessionId");
       const response = await axios.post(`${API_URL}/clean-namespace`, {
         sessionId,
       });
