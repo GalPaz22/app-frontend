@@ -136,7 +136,9 @@ export default function Home() {
     setLoading(true);
 
     try {
+      const sessionId = Cookies.get("sessionId");
       const res = await axios.post(`${API_URL}/generate-response`, {
+        
         question,
         sessionId,
         apiKey,
