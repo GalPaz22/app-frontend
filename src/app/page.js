@@ -9,7 +9,7 @@ export default function Home() {
         <h1 className="text-6xl font-bold mb-6">
           Welcome to{" "}
           <a href="/ask" className="text-blue-600">
-            Askit
+            Free AI Toolkit
           </a>
           <br />
         </h1>
@@ -63,7 +63,7 @@ export default function Home() {
         <span className="mt-3 text-2xl leading-relaxed font-bold">
           I'm convinced! How do I get started?
         </span>
-        <a className="mt-3 text-lg mr-2 leading-relaxed underline" href="/ask">Great! Click here to get started!</a>
+        <a className="mt-3 text-lg mr-2 leading-relaxed underline" href="/ask"> Great! Click here to get started!</a>
       </section>
     </div>
   );
