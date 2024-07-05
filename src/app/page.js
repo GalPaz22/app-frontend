@@ -50,15 +50,7 @@ export default function Home() {
         </p>
         <br />
         
-        <span className="mt-3 text-2xl leading-relaxed font-bold">
-          Why shouldn't I buy one account and share it with all my friends?
-        </span>
-        <p className="mt-3 text-lg leading-relaxed">
-          The system can detect concurrent logins from a single user and will block 
-          the requests accordingly. Multiple attempts to log in simultaneously will 
-          lead to the deletion of the user from the database.
-        </p>
-        <br />
+      
         
         <span className="mt-3 text-2xl leading-relaxed font-bold">
           I'm convinced! How do I get started?
