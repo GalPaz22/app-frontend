@@ -35,9 +35,9 @@ export default function Home() {
           So, how does it work?
         </span>
         <p className="mt-3 text-lg leading-relaxed">
-          Pretty simple - it's a Q&A bot based on Claude 3 sonnet by Anthropic - 
+          Pretty simple - it's a Q&A bot based on Claude 3.5 sonnet by Anthropic - 
           the best model in the world for document analysis (as of today). All you need 
-          to do is choose a document, write the action you want the model to perform, 
+          to do is choose a document, write the action you want the model to perform 
           and wait a few seconds.
         </p>
         <br />
@@ -46,7 +46,7 @@ export default function Home() {
           And how do you use the chatbot?
         </span>
         <p className="mt-3 text-lg leading-relaxed">
-        Just pick yourself a PDF document, press 'Upload and Embed,' and wait a few seconds as the document is upserted to the database. Then, ask whatever you want the model to do. If you want to pick a new document, we recommend cleaning the database to prevent mistakes.
+        Just pick yourself a PDF document, press 'Upload and Embed' and wait a few seconds as the document is upserted to the database. Then ask whatever you want the model to do. If you want to pick a new document, we recommend cleaning the database to prevent mistakes.
         </p>
         <br />
         

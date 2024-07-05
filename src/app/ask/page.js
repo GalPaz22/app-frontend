@@ -48,11 +48,7 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    if (authenticated === false) {
-      router.push("/login"); // Redirect to login page if not authenticated
-    }
-  }, [authenticated, router]);
+ 
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
