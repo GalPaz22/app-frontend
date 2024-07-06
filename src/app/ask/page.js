@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import Navbar from "../Navbar";
+import { v4 as uuidv4 } from "uuid"; // Import UUID function
 
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 
@@ -13,17 +13,8 @@ export default function Home() {
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
-
   const [authenticated, setAuthenticated] = useState(null); // null indicates loading state
   const [apiKey, setApiKey] = useState("");
-  
-  
-  const getSessionId = () => {
-    // Generate a unique session ID using uuidv4
-    return uuidv4();
-    };
-  const sessionId = getSessionId();
-  Cookies.set("sessionId", sessionId, { expires: 1 / 24 });
 
   const router = useRouter();
   const axiosInstance = axios.create({
@@ -56,7 +47,13 @@ export default function Home() {
     }
   };
 
- 
+  useEffect(() => {
+    const sessionId = Cookies.get("sessionId");
+    if (!sessionId) {
+      const newSessionId = uuidv4();
+      Cookies.set("sessionId", newSessionId, { expires: 1 / 24 });
+    }
+  }, []);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -66,12 +63,8 @@ export default function Home() {
 
   const handleQuestionChange = (e) => {
     setQuestion(e.target.value);
-    e.preventDefault();
   };
 
-  const handleApiKeyChange = (e) => {
-    setApiKey(e.target.value);
-  };
 
   const handleFileUpload = async () => {
     if (!file) {
@@ -90,7 +83,6 @@ export default function Home() {
       const res = await axios.post(
         `${API_URL}/embed-pdf`,
         formData,
-        sessionId,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -98,8 +90,6 @@ export default function Home() {
         }
       );
 
-      setSessionId(res.data.sessionId);
-      console.log("Session ID:", res.data.sessionId);
       alert("File uploaded and embedded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -108,6 +98,7 @@ export default function Home() {
       setLoading(false);
     }
   };
+
   const handleCleanNamespace = async () => {
     try {
       setLoading(true);
@@ -117,9 +108,7 @@ export default function Home() {
         sessionId,
       });
       alert("Namespace cleaned successfully!");
-      // Optionally, you can reset any relevant state here
       setConversation([]);
-      // Add any other state resets as needed
     } catch (error) {
       console.error("Error cleaning namespace:", error);
       alert("An error occurred while cleaning the namespace.");
@@ -131,9 +120,7 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!question) {
-      alert(
-        "Please enter a question, upload a PDF file, and provide an API key."
-      );
+      alert("Please enter a question, upload a PDF file, and provide an API key.");
       return;
     }
 
@@ -142,7 +129,6 @@ export default function Home() {
     try {
       const sessionId = Cookies.get("sessionId");
       const res = await axios.post(`${API_URL}/generate-response`, {
-        
         question,
         sessionId,
         apiKey,
@@ -181,13 +167,7 @@ export default function Home() {
     }
   };
 
-  if (authenticated === null) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        Loading...
-      </div>
-    );
-  }
+
 
   return (
     <>
