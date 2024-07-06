@@ -35,7 +35,7 @@ export default function Home() {
           So, how does it work?
         </span>
         <p className="mt-3 text-lg leading-relaxed">
-          Pretty simple - it's a Q&A bot based on Claude 3.5 sonnet by Anthropic - 
+          Pretty simple - it's a Q&A bot based on Claude 3.5 sonnet by Anthropic- 
           the best model in the world for document analysis (as of today). All you need 
           to do is choose a document, write the action you want the model to perform 
           and wait a few seconds.
