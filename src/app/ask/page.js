@@ -22,7 +22,9 @@ export default function Home() {
     // Generate a unique session ID using uuidv4
     return uuidv4();
     };
-  
+  const sessionId = getSessionId();
+  Cookies.set("sessionId", sessionId, { expires: 1 / 24 });
+
   const router = useRouter();
   const axiosInstance = axios.create({
     baseURL: API_URL,
@@ -82,8 +84,7 @@ export default function Home() {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const sessionId = getSessionId();
-      Cookies.set("sessionId", sessionId, { expires: 1 / 24 });    
+      const sessionId = Cookies.get("sessionId");
       formData.append("sessionId", sessionId);
 
       const res = await axios.post(
