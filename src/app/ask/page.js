@@ -152,16 +152,6 @@ export default function Home() {
     }
   };
 
-  const handleLogout = async () => {
-    Cookies.remove("userId");
-    setAuthenticated(false);
-    try {
-      await axiosInstance.post("/logout", {});
-      router.push("/login");
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
 
   if (authenticated === null) {
     return (
