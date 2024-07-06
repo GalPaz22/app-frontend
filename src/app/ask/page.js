@@ -13,9 +13,17 @@ export default function Home() {
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
-  const [sessionId, setSessionId] = useState(null);
+
   const [authenticated, setAuthenticated] = useState(null); // null indicates loading state
   const [apiKey, setApiKey] = useState("");
+  
+  
+  const getSessionId = () => {
+    // Generate a unique session ID using uuidv4
+    return uuidv4();
+    };
+  const sessionId = getSessionId();
+  Cookies.set("sessionId", sessionId, { expires: 1 / 24 });
 
   const router = useRouter();
   const axiosInstance = axios.create({
