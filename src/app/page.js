@@ -9,7 +9,7 @@ export default function Home() {
         <h1 className="text-6xl font-bold mb-6">
           Welcome to{" "}
           <a href="/ask" className="text-blue-600">
-            Free AI Toolkit
+            Free ChatPDF
           </a>
           <br />
         </h1>
