@@ -21,12 +21,12 @@ export default function RootLayout({ children }) {
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052"
      crossorigin="anonymous"></script>
   <>
-      <Script
+      <script
       async src="https://www.googletagmanager.com/gtag/js?id=G-XQHNQGN6SY"
       strategy="afterInteractive"
       />
 
-      <Script id="google-analytics" strategy="afterInteractive">
+      <script id="google-analytics" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
 
   gtag('config', 'G-XQHNQGN6SY');
           `}
-      </Script>
+      </script>
     </>
 
    
