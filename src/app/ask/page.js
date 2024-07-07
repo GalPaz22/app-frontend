@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
-import { Router } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 
@@ -14,9 +14,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [apiKey, setApiKey] = useState("");
-  
- 
 
+  const router = useRouter();
   useEffect(() => {
     // Generate and set the session ID when the component mounts
     const sessionId = uuidv4();
@@ -51,17 +50,15 @@ export default function Home() {
       const sessionId = Cookies.get("sessionId");
       formData.append("sessionId", sessionId);
 
-      await axios.post(
-        `${API_URL}/embed-pdf`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.post(`${API_URL}/embed-pdf`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-      Router.push("/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa");
+      router.push(
+        "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
+      );
 
       alert("File uploaded and embedded successfully!");
     } catch (error) {
@@ -76,9 +73,11 @@ export default function Home() {
     try {
       setLoading(true);
 
-      
       const sessionId = Cookies.get("sessionId");
       await axios.post(`${API_URL}/clean-namespace`, { sessionId });
+      router.push(
+        "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
+      );
       alert("Namespace cleaned successfully!");
       setConversation([]);
     } catch (error) {
@@ -92,7 +91,9 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!question) {
-      alert("Please enter a question, upload a PDF file, and provide an API key.");
+      alert(
+        "Please enter a question, upload a PDF file, and provide an API key."
+      );
       return;
     }
 
@@ -105,6 +106,9 @@ export default function Home() {
         sessionId,
         apiKey,
       });
+      router.push(
+        "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
+      );
 
       const answer = res.data.answer;
 
@@ -117,7 +121,10 @@ export default function Home() {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
         ...prevConversation,
-        { role: "system", text: "An error occurred while fetching the response." },
+        {
+          role: "system",
+          text: "An error occurred while fetching the response.",
+        },
       ]);
     } finally {
       setLoading(false);
@@ -130,9 +137,10 @@ export default function Home() {
       <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
         <h1 className="text-3xl font-bold mb-4">Ask Your Doc</h1>
         <div className="mb-4">
-      
-        <div id="container-e8ecdde516e1ce6931b965d75fbec896"></div>
-          <label htmlFor="file-upload" className="block text-gray-700 font-bold">
+          <label
+            htmlFor="file-upload"
+            className="block text-gray-700 font-bold"
+          >
             Upload a PDF file:
           </label>
           <input
@@ -141,7 +149,6 @@ export default function Home() {
             accept=".pdf"
             onChange={handleFileChange}
             className="hidden"
-        
           />
           <label
             htmlFor="file-upload"
@@ -153,7 +160,12 @@ export default function Home() {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
             </svg>
             Choose File
           </label>
@@ -168,7 +180,6 @@ export default function Home() {
         <button
           onClick={handleCleanNamespace}
           className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-2"
-          
         >
           Clean
         </button>
@@ -202,7 +213,8 @@ export default function Home() {
                   entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
                 }`}
               >
-                <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong> {entry.text}
+                <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
+                {entry.text}
               </div>
             ))}
         </div>
