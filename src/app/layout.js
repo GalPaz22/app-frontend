@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-     
+      <script async src="https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa" />
       <link rel="icon" href="\iconmonstr-file-34.svg"></link>
     
       </head>
