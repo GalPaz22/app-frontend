@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
+import { Router } from "next/navigation";
 
 const API_URL = "https://app-backend-urlo.onrender.com"; // Adjust this URL to your backend
 
@@ -13,6 +14,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [apiKey, setApiKey] = useState("");
+  
+ 
 
   useEffect(() => {
     // Generate and set the session ID when the component mounts
@@ -58,6 +61,8 @@ export default function Home() {
         }
       );
 
+      Router.push("/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa");
+
       alert("File uploaded and embedded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -71,6 +76,7 @@ export default function Home() {
     try {
       setLoading(true);
 
+      
       const sessionId = Cookies.get("sessionId");
       await axios.post(`${API_URL}/clean-namespace`, { sessionId });
       alert("Namespace cleaned successfully!");
@@ -124,6 +130,8 @@ export default function Home() {
       <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
         <h1 className="text-3xl font-bold mb-4">Ask Your Doc</h1>
         <div className="mb-4">
+      
+        <div id="container-e8ecdde516e1ce6931b965d75fbec896"></div>
           <label htmlFor="file-upload" className="block text-gray-700 font-bold">
             Upload a PDF file:
           </label>
@@ -133,6 +141,7 @@ export default function Home() {
             accept=".pdf"
             onChange={handleFileChange}
             className="hidden"
+        
           />
           <label
             htmlFor="file-upload"
@@ -159,6 +168,7 @@ export default function Home() {
         <button
           onClick={handleCleanNamespace}
           className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-2"
+          
         >
           Clean
         </button>
