@@ -37,6 +37,9 @@ export default function Home() {
   };
 
   const handleFileUpload = async () => {
+    router.push(
+      "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
+    );
     if (!file) {
       alert("Please upload a PDF file.");
       return;
@@ -56,10 +59,7 @@ export default function Home() {
         },
       });
 
-      router.push(
-        "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
-      );
-
+    
       alert("File uploaded and embedded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -70,14 +70,15 @@ export default function Home() {
   };
 
   const handleCleanNamespace = async () => {
+    router.push(
+      "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
+    );
     try {
       setLoading(true);
 
       const sessionId = Cookies.get("sessionId");
       await axios.post(`${API_URL}/clean-namespace`, { sessionId });
-      router.push(
-        "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
-      );
+     
       alert("Namespace cleaned successfully!");
       setConversation([]);
     } catch (error) {
@@ -89,6 +90,9 @@ export default function Home() {
   };
 
   const handleSubmit = async (e) => {
+    router.push(
+      "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
+    );
     e.preventDefault();
     if (!question) {
       alert(
@@ -106,9 +110,7 @@ export default function Home() {
         sessionId,
         apiKey,
       });
-      router.push(
-        "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
-      );
+     
 
       const answer = res.data.answer;
 
