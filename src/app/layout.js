@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-      <script async src="https://js.wpadmngr.com/static/adManager.js" data-admpid="203791"></script>
+     
       <link rel="icon" href="\iconmonstr-file-34.svg"></link>
     
       </head>
