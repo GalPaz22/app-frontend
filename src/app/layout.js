@@ -9,6 +9,9 @@ export const metadata = {
   title: "100% Free ChatPDF- no registration required",
   description: "Poor UI, High performance.",
   keywords: "chatbot, pdf, free, no registration required",
+  links: {
+    icon: "/iconmonstr-file-34.svg",
+  },
   
 };
 
