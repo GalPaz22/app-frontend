@@ -9,7 +9,6 @@ const Navbar = () => {
   const router = useRouter();
 
   const navItems = [
-    { href: "/ask", label: "ChatPDF" },
     { href: "/About", label: "About Us" },
     { href: "/privacy-policy", label: "Privacy Policy" },
     { href: "/faq", label: "FAQ" },
@@ -26,6 +25,12 @@ const Navbar = () => {
         <Link href="/">
           <div className="text-white text-2xl font-bold cursor-pointer">
             100% Free ChatPDF
+          </div>
+        </Link>
+
+        <Link href="/ask">
+          <div className="text-white text-2xl font-bold cursor-pointer">
+            ChatPDF
           </div>
         </Link>
 
