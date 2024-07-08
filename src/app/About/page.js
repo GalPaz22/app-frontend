@@ -20,7 +20,7 @@ const About = () => {
 
         <h2 className="text-2xl font-bold mt-8 mb-4">What We Offer</h2>
         <ul className="list-disc list-inside">
-          <li><strong>PDF summaries:</strong> Get a summary of your PDFs in just a few clicks</li>
+          <li><strong>PDF summaries:</strong> Get a summary of your PDFs in just a few clicks.</li>
           <li><strong>PDF Q&A:</strong> Ask questions about your PDFs in real-time.</li>
           <li><strong>PDF Data-Finding:</strong> Find relevant information in your PDFs, including tables, images, and specific text.</li>
           <li><strong>No Registration Required:</strong> Enjoy hassle-free access to all our tools without the need to create an account or provide personal information.</li>
