@@ -1,40 +1,41 @@
 // components/Navbar.js
+'use client';
 import Link from "next/link";
 import Logout from "./Logout";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
+  
+  const navItems = [
+    { href: "/ask", label: "ChatPDF" },
+    { href: "/About", label: "About Us" },
+    { href: "/privacy-policy", label: "Privacy Policy" },
+    { href: "/faq", label: "FAQ" }
+  ];
+
   return (
-    <nav className="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 py-4">
+    <nav className="bg-gradient-to-r from-gray-900 via-gray-700  py-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/">
-          <div className="text-white text-2xl font-bold">100% Free ChatPDF</div>
+          <div className="text-white text-2xl font-bold cursor-pointer">
+            100% Free ChatPDF
+          </div>
         </Link>
-        
-        <div className="flex justify-center space-x-8">
-          <Link href="/ask">
-            <span className="text-white font-bold cursor-pointer hover:text-gray-300 transition duration-300 border-b-2 border-transparent hover:border-gray-300 pb-1">
-              ChatPDF
-            </span>
-          </Link>
-          <Link href="/About">
-            <span className="text-white cursor-pointer hover:text-gray-300 transition duration-300 border-b-2 border-transparent hover:border-gray-300 pb-1">
-              About Us
-            </span>
-          </Link>
 
-          <Link href="/privacy-policy">
-            <span className="text-white cursor-pointer hover:text-gray-300 transition duration-300 border-b-2 border-transparent hover:border-gray-300 pb-1">
-              Privacy Policy
-            </span>
-          </Link>
-          <Link href="/faq">
-            <span className="text-white cursor-pointer hover:text-gray-300 transition duration-300 border-b-2 border-transparent hover:border-gray-300 pb-1">
-              FAQ
-            </span>
-          </Link>
+        <div className="flex space-x-8">
+          {navItems.map(item => (
+            <Link key={item.href} href={item.href}>
+              <span
+                className={`text-white font-bold cursor-pointer hover:text-gray-300 transition duration-300 border-b-2 border-transparent hover:border-gray-300 pb-1 ${router.pathname === item.href ? "border-gray-300" : ""}`}
+              >
+                {item.label}
+              </span>
+            </Link>
+          ))}
         </div>
-
-       
+        
+    
       </div>
     </nav>
   );
