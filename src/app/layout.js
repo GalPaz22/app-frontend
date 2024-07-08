@@ -13,7 +13,7 @@ export const metadata = {
   title: "100% Free ChatPDF- No registration required!",
   description: "Poor UI, High performance.",
   keywords: "chatbot, pdf, free, no registration required, Chat pdf בעברית",
-  icon: "/iconmonstr-file-34.svg",
+
 };
 
 const RootLayout = ({ children }) => {
@@ -26,7 +26,7 @@ const RootLayout = ({ children }) => {
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords} />
-        <link rel="icon" href={metadata.icon} />
+        <link rel="icon" href="./iconmonstr-file-34.svg" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052"
      crossorigin="anonymous"></script>
       </Head>
