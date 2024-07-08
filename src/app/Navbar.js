@@ -12,7 +12,8 @@ const Navbar = () => {
     { href: "/ask", label: "ChatPDF" },
     { href: "/About", label: "About Us" },
     { href: "/privacy-policy", label: "Privacy Policy" },
-    { href: "/faq", label: "FAQ" }
+    { href: "/faq", label: "FAQ" },
+    { href: "/terms", label: "T&C" },
   ];
 
   const toggleMenu = () => {
