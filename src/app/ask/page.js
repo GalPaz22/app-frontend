@@ -37,7 +37,7 @@ export default function Home() {
   };
 
   const handleFileUpload = async () => {
-    window.open("https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa", "_blank");
+   
     if (!file) {
       alert("Please upload a PDF file.");
       return;
@@ -67,7 +67,7 @@ export default function Home() {
   };
 
   const handleCleanNamespace = async () => {
-    window.open("https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa", "_blank");
+   
     try {
       setLoading(true);
 
@@ -85,7 +85,7 @@ export default function Home() {
   };
 
   const handleSubmit = async (e) => {
-    window.open("https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa", "_blank");
+  
     e.preventDefault();
     if (!question) {
       alert("Please enter a question, upload a PDF file, and provide an API key.");
