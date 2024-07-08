@@ -5,9 +5,12 @@ import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "100% Free ChatPDF- no registration required",
+  title: "100% Free ChatPDF-  No registration required!",
   description: "Poor UI, High performance.",
   keywords: "chatbot, pdf, free, no registration required, Chat pdf בעברית",
+  icons: {
+    icon: "/iconmonstr-file-34.svg",
+  },
 
 };
 
