@@ -37,7 +37,6 @@ export default function Home() {
   };
 
   const handleFileUpload = async () => {
-   
     if (!file) {
       alert("Please upload a PDF file.");
       return;
@@ -67,7 +66,6 @@ export default function Home() {
   };
 
   const handleCleanNamespace = async () => {
-   
     try {
       setLoading(true);
 
@@ -85,10 +83,11 @@ export default function Home() {
   };
 
   const handleSubmit = async (e) => {
-  
     e.preventDefault();
     if (!question) {
-      alert("Please enter a question, upload a PDF file, and provide an API key.");
+      alert(
+        "Please enter a question, upload a PDF file, and provide an API key."
+      );
       return;
     }
 
@@ -125,12 +124,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
-
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <div className="container mx-auto p-4 rounded-md bg-white dark:bg-gray-800 shadow-lg">
         <h1 className="text-3xl font-bold mb-4">Ask Your Doc</h1>
         <div className="mb-4">
-          <label htmlFor="file-upload" className="block text-gray-700 font-bold">
+          <label
+            htmlFor="file-upload"
+            className="block text-gray-700 dark:text-gray-300 font-bold"
+          >
             Upload a PDF file:
           </label>
           <input
@@ -159,7 +160,7 @@ export default function Home() {
             </svg>
             Choose File
           </label>
-          {fileName && <span className="text-gray-500 ml-2">{fileName}</span>}
+          {fileName && <span className="text-gray-500 dark:text-gray-300 ml-2">{fileName}</span>}
         </div>
         <button
           onClick={handleFileUpload}
@@ -180,7 +181,7 @@ export default function Home() {
               value={question}
               onChange={handleQuestionChange}
               placeholder="Enter your question"
-              className="border border-gray-300 rounded-md p-2 w-full"
+              className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
 
@@ -191,7 +192,7 @@ export default function Home() {
             Ask
           </button>
         </form>
-        {loading && <div className="mt-4 text-gray-700">Loading...</div>}
+        {loading && <div className="mt-4 text-gray-700 dark:text-gray-300">Loading...</div>}
         <div id="response-container" className="mt-4">
           {conversation
             .slice()
@@ -200,7 +201,7 @@ export default function Home() {
               <div
                 key={index}
                 className={`p-2 border rounded-md mb-2 ${
-                  entry.role === "user" ? "bg-gray-200" : "bg-gray-100"
+                  entry.role === "user" ? "bg-gray-200 dark:bg-gray-700" : "bg-gray-100 dark:bg-gray-800"
                 }`}
               >
                 <strong>{entry.role === "user" ? "You" : "Assistant"}:</strong>{" "}
