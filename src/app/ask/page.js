@@ -37,9 +37,7 @@ export default function Home() {
   };
 
   const handleFileUpload = async () => {
-    router.push(
-      "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
-    );
+    window.location.href = "https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa";
     if (!file) {
       alert("Please upload a PDF file.");
       return;
@@ -59,7 +57,6 @@ export default function Home() {
         },
       });
 
-    
       alert("File uploaded and embedded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -70,15 +67,13 @@ export default function Home() {
   };
 
   const handleCleanNamespace = async () => {
-    router.push(
-      "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
-    );
+    window.location.href = "https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa";
     try {
       setLoading(true);
 
       const sessionId = Cookies.get("sessionId");
       await axios.post(`${API_URL}/clean-namespace`, { sessionId });
-     
+
       alert("Namespace cleaned successfully!");
       setConversation([]);
     } catch (error) {
@@ -90,14 +85,10 @@ export default function Home() {
   };
 
   const handleSubmit = async (e) => {
-    router.push(
-      "/https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa"
-    );
+    window.location.href = "https://www.highrevenuenetwork.com/nm59fuxs5?key=92f53e851ea143a5a07020c5faf685aa";
     e.preventDefault();
     if (!question) {
-      alert(
-        "Please enter a question, upload a PDF file, and provide an API key."
-      );
+      alert("Please enter a question, upload a PDF file, and provide an API key.");
       return;
     }
 
@@ -110,7 +101,6 @@ export default function Home() {
         sessionId,
         apiKey,
       });
-     
 
       const answer = res.data.answer;
 
@@ -139,10 +129,7 @@ export default function Home() {
       <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
         <h1 className="text-3xl font-bold mb-4">Ask Your Doc</h1>
         <div className="mb-4">
-          <label
-            htmlFor="file-upload"
-            className="block text-gray-700 font-bold"
-          >
+          <label htmlFor="file-upload" className="block text-gray-700 font-bold">
             Upload a PDF file:
           </label>
           <input
