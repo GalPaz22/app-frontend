@@ -20,6 +20,7 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <head>
+      <script src="//servedby.eleavers.com/ads/ads.php?t=MzA0NDc7MjA1NjE7aG9yaXpvbnRhbC5iYW5uZXI=&index=1"></script>
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQHNQGN6SY"></script>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
