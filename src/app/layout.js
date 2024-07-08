@@ -19,6 +19,7 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <Head>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQHNQGN6SY"></script>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{metadata.title}</title>
