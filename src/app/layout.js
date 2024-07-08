@@ -19,7 +19,7 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <Head>
+      <head>
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQHNQGN6SY"></script>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,7 +29,7 @@ const RootLayout = ({ children }) => {
         <link rel="icon" href="./iconmonstr-file-34.svg" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052"
      crossorigin="anonymous"></script>
-      </Head>
+      </head>
       <body className={`${inter.className} min-h-screen bg-gradient-to-br from-gray-900 to-blue-500 text-white`}>
         <Navbar />
         <main className="container mx-auto px-4 py-8">
