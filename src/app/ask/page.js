@@ -127,6 +127,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-400 to-blue-500 flex justify-center items-center">
       <div className="container mx-auto p-4 rounded-md bg-white shadow-lg">
+      <div id="container-e8ecdde516e1ce6931b965d75fbec896"></div>
         <h1 className="text-3xl font-bold mb-4">Ask Your Doc</h1>
         <div className="mb-4">
           <label htmlFor="file-upload" className="block text-gray-700 font-bold">
