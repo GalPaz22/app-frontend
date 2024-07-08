@@ -27,7 +27,8 @@ const RootLayout = ({ children }) => {
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords} />
         <link rel="icon" href={metadata.icon} />
-       
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052"
+     crossorigin="anonymous"></script>
       </Head>
       <body className={`${inter.className} min-h-screen bg-gradient-to-br from-gray-900 to-blue-500 text-white`}>
         <Navbar />
