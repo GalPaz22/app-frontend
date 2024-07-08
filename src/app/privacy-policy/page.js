@@ -21,7 +21,7 @@ const PrivacyPolicy = () => {
           <li>Name, email address, and contact information.</li>
           <li>Usage data, such as your interactions with our website and services.</li>
           <li>Technical data, including IP address, browser type, and device information.</li>
-          <li className='font-bold'>We do not collecting any of your PDF data whatsoever.</li>
+          <li className='font-bold'>We do not collect any of your PDF data whatsoever.</li>
         </ul>
 
         <h2 className="text-2xl font-bold mt-8 mb-4">How We Use Your Information</h2>
