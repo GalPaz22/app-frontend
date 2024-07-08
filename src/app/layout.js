@@ -9,6 +9,7 @@ import './globals.css'; // Ensure to adjust the path based on your project struc
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
+  author: "100% Free ChatPDF",
   title: "100% Free ChatPDF- No registration required!",
   description: "Poor UI, High performance.",
   keywords: "chatbot, pdf, free, no registration required, Chat pdf בעברית",
