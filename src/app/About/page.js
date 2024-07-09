@@ -13,10 +13,10 @@ const About = () => {
       <h1 className="text-4xl font-bold mb-8 text-center">About Free ChatPDF</h1>
 
       <div className="max-w-3xl mx-auto prose lg:prose-xl">
-        <p>Welcome to Free ChatPDF, your ultimate destination for seamless and free PDF conversion and interaction services. We take pride in being the only platform online that offers a comprehensive suite of PDF tools completely free of charge, without any hidden fees or subscriptions.</p>
+        <p>Welcome to Free ChatPDF, your ultimate destination for seamless and free PDF AI interaction services. We take pride in being the only platform online that offers a comprehensive suite of PDF tools completely free of charge, without any hidden fees or subscriptions.</p>
 
         <h2 className="text-2xl font-bold mt-8 mb-4">Our Mission</h2>
-        <p>At Free ChatPDF, our mission is to empower users worldwide with easy-to-use tools for PDF conversion, editing, and interaction, all at no cost. We believe that access to essential digital tools should be universally available, enabling individuals and businesses alike to manage and manipulate PDF documents effortlessly.</p>
+        <p>At Free ChatPDF, our mission is to empower users worldwide with easy-to-use RAG architectured Chatbot capable of answering a variety of questions related to your PDF data.</p>
 
         <h2 className="text-2xl font-bold mt-8 mb-4">What We Offer</h2>
         <ul className="list-disc list-inside">
