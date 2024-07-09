@@ -43,7 +43,7 @@ export default function Home() {
   const handleFileUpload = async () => {
     const uploadCount = parseInt(Cookies.get('uploadCount'), 10);
 
-    if (uploadCount >= 4) {
+    if (uploadCount >= 3) {
       alert("Upload limit reached for this session.");
       return;
     }
