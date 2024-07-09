@@ -24,9 +24,12 @@ const RootLayout = ({ children }) => {
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQHNQGN6SY"></script>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta author="100% Free ChatPDF" />
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords} />
+        <meta name="author" content="100% Free ChatPDF" />
+        <link rel="apple-touch-icon" href="./iconmonstr-file-34.svg" />
         <link rel="icon" href="./iconmonstr-file-34.svg" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052"
      crossorigin="anonymous"></script>
