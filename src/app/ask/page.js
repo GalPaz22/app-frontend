@@ -18,8 +18,13 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     // Generate and set the session ID when the component mounts
-    const sessionId = uuidv4();
-    Cookies.set("sessionId", sessionId, { expires: 1 / 24 });
+    let sessionId = Cookies.get('sessionId');
+    
+    // If not, generate a new session ID and set the cookie
+    if (!sessionId) {
+      sessionId = uuidv4();
+      Cookies.set('sessionId', sessionId, { expires: 1 / 24 }); // Expires in 1 hour
+    }
   }, []);
 
   const handleFileChange = (e) => {
