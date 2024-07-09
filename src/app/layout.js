@@ -20,7 +20,7 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <head>
-      <script src="//servedby.eleavers.com/ads/ads.php?t=MzA0NDc7MjA1NjE7aG9yaXpvbnRhbC5iYW5uZXI=&index=1"></script>
+      
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQHNQGN6SY"></script>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,6 +33,7 @@ const RootLayout = ({ children }) => {
       </head>
       <body className={`${inter.className} min-h-screen bg-gradient-to-br from-gray-900 to-blue-500 text-white`}>
         <Navbar />
+        <script src="//servedby.eleavers.com/ads/ads.php?t=MzA0NDc7MjA1NjE7aG9yaXpvbnRhbC5iYW5uZXI=&index=1"></script>
         <main className="container mx-auto px-4 py-8">
           {children}
         </main>
