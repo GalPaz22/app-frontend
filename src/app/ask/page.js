@@ -17,13 +17,12 @@ export default function Home() {
 
   const router = useRouter();
   useEffect(() => {
-    // Generate and set the session ID when the component mounts
+    // Generate and set the session ID and counter when the component mounts
     let sessionId = Cookies.get('sessionId');
-    
-    // If not, generate a new session ID and set the cookie
     if (!sessionId) {
       sessionId = uuidv4();
       Cookies.set('sessionId', sessionId, { expires: 1 / 24 }); // Expires in 1 hour
+      Cookies.set('uploadCount', 0, { expires: 1 / 24 }); // Initialize upload count
     }
   }, []);
 
@@ -42,6 +41,13 @@ export default function Home() {
   };
 
   const handleFileUpload = async () => {
+    const uploadCount = parseInt(Cookies.get('uploadCount'), 10);
+
+    if (uploadCount >= 4) {
+      alert("Upload limit reached for this session.");
+      return;
+    }
+
     if (!file) {
       alert("Please upload a PDF file.");
       return;
@@ -60,6 +66,9 @@ export default function Home() {
           "Content-Type": "multipart/form-data",
         },
       });
+
+      // Increment the upload count
+      Cookies.set('uploadCount', uploadCount + 1, { expires: 1 / 24 });
 
       alert("File uploaded and embedded successfully!");
     } catch (error) {
@@ -90,9 +99,7 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!question) {
-      alert(
-        "Please enter a question, upload a PDF file, and provide an API key."
-      );
+      alert("Please enter a question, upload a PDF file, and provide an API key.");
       return;
     }
 
@@ -116,7 +123,6 @@ export default function Home() {
     } catch (error) {
       console.error("Error fetching response:", error);
       setConversation((prevConversation) => [
-        ...prevConversation,
         {
           role: "system",
           text: "An error occurred while fetching the response.",
@@ -131,7 +137,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <div className="container mx-auto p-4 rounded-md bg-white dark:bg-gray-800 shadow-lg">
-        <h1 className="text-3xl font-bold mb-4">100% Free ChatPDF- No Sign Up</h1>
+        <h1 className="text-3xl font-bold mb-4">100% Free ChatPDF - No Sign Up</h1>
         <div className="mb-4">
           <label
             htmlFor="file-upload"
@@ -189,7 +195,6 @@ export default function Home() {
               className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
-
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
