@@ -14,7 +14,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [apiKey, setApiKey] = useState("");
-  const [uploadCount, setUploadCount] = useState(3);
+  
 
 
 
@@ -71,7 +71,7 @@ export default function Home() {
 
       // Increment the upload count
       Cookies.set('uploadCount', uploadCount + 1, { expires: 1 / 24 });
-      setUploadCount(uploadCount -= 1);
+      
 
       alert("File uploaded and embedded successfully!");
     } catch (error) {
@@ -189,7 +189,7 @@ export default function Home() {
           
           Clean
         </button>
-        <span className="mr-1 ml-6 font-bold">Docs remaining</span><span className="ml-2">{uploadCount}/3</span>
+        <span className="mr-1 ml-6 font-bold">Docs uploaded</span><span className="ml-2">{parseInt(Cookies.get('uploadCount'), 10)}/3</span>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
