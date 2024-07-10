@@ -71,7 +71,7 @@ export default function Home() {
 
       // Increment the upload count
       Cookies.set('uploadCount', uploadCount + 1, { expires: 1 / 24 });
-      setUploadCount(uploadCount - 1);
+      setUploadCount(uploadCount -= 1);
 
       alert("File uploaded and embedded successfully!");
     } catch (error) {
