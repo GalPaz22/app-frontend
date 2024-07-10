@@ -14,17 +14,15 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [apiKey, setApiKey] = useState("");
-  
-
-
+  const [showUploadLimitMessage, setShowUploadLimitMessage] = useState(false);
 
   useEffect(() => {
     // Generate and set the session ID and counter when the component mounts
-    let sessionId = Cookies.get('sessionId');
+    let sessionId = Cookies.get("sessionId");
     if (!sessionId) {
       sessionId = uuidv4();
-      Cookies.set('sessionId', sessionId, { expires: 1 / 24 }); // Expires in 1 hour
-      Cookies.set('uploadCount', 0, { expires: 1 / 24 }); // Initialize upload count
+      Cookies.set("sessionId", sessionId, { expires: 1 / 24 }); // Expires in 1 hour
+      Cookies.set("uploadCount", 0, { expires: 1 / 24 }); // Initialize upload count
     }
   }, []);
 
@@ -43,10 +41,10 @@ export default function Home() {
   };
 
   const handleFileUpload = async () => {
-    const uploadCount = parseInt(Cookies.get('uploadCount'), 10);
+    const uploadCount = parseInt(Cookies.get("uploadCount"), 10);
 
     if (uploadCount >= 3) {
-      alert("Upload limit reached for this session.");
+      setShowUploadLimitMessage(true);
       return;
     }
 
@@ -70,8 +68,7 @@ export default function Home() {
       });
 
       // Increment the upload count
-      Cookies.set('uploadCount', uploadCount + 1, { expires: 1 / 24 });
-      
+      Cookies.set("uploadCount", uploadCount + 1, { expires: 1 / 24 });
 
       alert("File uploaded and embedded successfully!");
     } catch (error) {
@@ -137,6 +134,10 @@ export default function Home() {
     }
   };
 
+  const closeUploadLimitMessage = () => {
+    setShowUploadLimitMessage(false);
+  };
+
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <div className="container mx-auto p-4 rounded-md bg-white dark:bg-gray-800 shadow-lg">
@@ -186,10 +187,9 @@ export default function Home() {
           onClick={handleCleanNamespace}
           className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-2"
         >
-          
           Clean
         </button>
-        <span className="mr-1 ml-6 font-bold">Docs uploaded</span><span className="ml-2">{parseInt(Cookies.get('uploadCount'), 10)}/3</span>
+        <span className="mr-1 ml-6 font-bold">Docs uploaded</span><span className="ml-2">{parseInt(Cookies.get("uploadCount"), 10)}/3</span>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
@@ -224,6 +224,19 @@ export default function Home() {
               </div>
             ))}
         </div>
+        {showUploadLimitMessage && (
+          <div className="fixed top-4 right-4 bg-red-500 text-white p-4 rounded-md shadow-lg">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="font-bold text-lg">You reached your limit</h2>
+                <p>Have an unlimited account, both in docs and messages, from as little as $5 a month - the price of a cup of coffee (at Starbucks).</p>
+              </div>
+              <button onClick={closeUploadLimitMessage} className="ml-4 text-white font-bold">
+                X
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
