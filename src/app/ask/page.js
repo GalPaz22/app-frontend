@@ -14,8 +14,10 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [apiKey, setApiKey] = useState("");
+  const [uploadCount, setUploadCount] = useState(3);
 
-  const router = useRouter();
+
+
   useEffect(() => {
     // Generate and set the session ID and counter when the component mounts
     let sessionId = Cookies.get('sessionId');
@@ -69,6 +71,7 @@ export default function Home() {
 
       // Increment the upload count
       Cookies.set('uploadCount', uploadCount + 1, { expires: 1 / 24 });
+      setUploadCount(uploadCount - 1);
 
       alert("File uploaded and embedded successfully!");
     } catch (error) {
@@ -183,8 +186,10 @@ export default function Home() {
           onClick={handleCleanNamespace}
           className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-2"
         >
+          
           Clean
         </button>
+        <span className="mr-1 ml-6 font-bold">Docs remaining</span><span className="ml-2">{uploadCount}/3</span>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
