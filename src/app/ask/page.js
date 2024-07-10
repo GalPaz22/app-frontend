@@ -189,7 +189,7 @@ export default function Home() {
         >
           Clean
         </button>
-        <span className="mr-1 ml-6 font-bold">Docs uploaded</span><span className="ml-2">{parseInt(Cookies.get("uploadCount"), 10)}/3</span>
+        <span className="mr-1 ml-6 font-bold">Docs uploaded</span><span className="ml-2">{ Cookies.get("uploadCount") ? parseInt(Cookies.get("uploadCount"), 10) : 0}/3</span>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
