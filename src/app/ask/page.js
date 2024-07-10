@@ -139,7 +139,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen flex justify-center items-center  dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <div className="container mx-auto p-4 rounded-md bg-white dark:bg-gray-800 shadow-lg">
         <h1 className="text-3xl font-bold mb-4">100% Free ChatPDF - No Sign Up</h1>
         <div className="mb-4">
