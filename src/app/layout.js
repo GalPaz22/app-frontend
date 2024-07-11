@@ -25,7 +25,7 @@ const RootLayout = ({ children }) => {
      crossorigin="anonymous"></script>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta author="100% Free ChatPDF" />
+    
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords} />
