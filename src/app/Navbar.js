@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,9 +24,12 @@ const Navbar = () => {
     <nav className="bg-gradient-to-r from-gray-900 via-gray-700 py-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/">
-          <div className="text-white text-2xl font-bold cursor-pointer">
-            100% Free ChatPDF
-          </div>
+              <Image 
+                src="/log.png"
+                alt="Logo"
+                width={170}
+                height={80}
+              />
         </Link>
 
         <Link href="/ask">

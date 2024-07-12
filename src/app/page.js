@@ -8,7 +8,7 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center min-h-screen flex-1 px-20 text-center">
         <h1 className="text-6xl font-bold mb-6">
           Welcome to{" "}
-          <a href="/ask" className="text-blue-600">
+          <a href="/ask" className="text-blue-400 ">
             Free ChatPDF
           </a>
           <br />
