@@ -1,5 +1,3 @@
-// components/RootLayout.js
-
 import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
@@ -13,31 +11,42 @@ export const metadata = {
   title: "100% Free ChatPDF- No registration required!",
   description: "Poor UI, High performance.",
   keywords: "chatbot, pdf, free, no registration required, Chat pdf בעברית",
-
 };
 
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <head>
-      
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052"
-     crossorigin="anonymous"></script>
+      <Head>
+        <title>{metadata.title}</title>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-        <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords} />
-        <meta name="author" content="100% Free ChatPDF" />
-        <link rel="apple-touch-icon" href="./iconmonstr-file-34.svg" />
-        <link rel="icon" href="./iconmonstr-file-34.svg" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052"
-     crossorigin="anonymous"></script>
-      </head>
+        <meta name="author" content={metadata.author} />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052" 
+          crossOrigin="anonymous">
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "url": "https://example.com",
+            "logo": "https://example.com/logo.png",
+            "name": "100% Free ChatPDF",
+            "sameAs": [
+              "https://www.facebook.com/your-profile",
+              "https://www.twitter.com/your-profile",
+              "https://www.instagram.com/your-profile"
+            ]
+          })}
+        </script>
+      </Head>
       <body className={`${inter.className} min-h-screen bg-gradient-to-br from-gray-900 to-blue-500 text-white`}>
         <Navbar />
-        <script src="//servedby.eleavers.com/ads/ads.php?t=MzA0NDc7MjA1NjE7aG9yaXpvbnRhbC5iYW5uZXI=&index=1"></script>
         <main className="container mx-auto px-4 py-8">
           {children}
         </main>
@@ -45,6 +54,7 @@ const RootLayout = ({ children }) => {
           <p>&copy; {new Date().getFullYear()} Free ChatPDF. All rights reserved.</p>
         </footer>
         <Analytics />
+        <script src="//servedby.eleavers.com/ads/ads.php?t=MzA0NDc7MjA1NjE7aG9yaXpvbnRhbC5iYW5uZXI=&index=1"></script>
       </body>
     </html>
   );
