@@ -23,7 +23,7 @@ const RootLayout = ({ children }) => {
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords} />
         <meta name="author" content={metadata.author} />
-        <link rel="icon" href="/iconmonstr-file-34.svg"/>
+        <link rel="icon" href="./iconmonstr-file-34.svg"/>
         <link rel="apple-touch-icon" href="//iconmonstr-file-34.svg" />
         <script
           async
