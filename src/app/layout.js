@@ -17,6 +17,11 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <head>
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052" 
+          crossOrigin="anonymous">
+        </script>
         <title>{metadata.title}</title>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,11 +30,6 @@ const RootLayout = ({ children }) => {
         <meta name="author" content={metadata.author} />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icon.svg" />
-        <script 
-          async 
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052" 
-          crossOrigin="anonymous">
-        </script>
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
