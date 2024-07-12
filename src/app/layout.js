@@ -51,7 +51,7 @@ const RootLayout = ({ children }) => {
           <p>&copy; {new Date().getFullYear()} Free ChatPDF. All rights reserved.</p>
         </footer>
         <Analytics />
-        <script src="//servedby.eleavers.com/ads/ads.php?t=MzA0NDc7MjA1NjE7aG9yaXpvbnRhbC5iYW5uZXI=&index=1"></script>
+       
       </body>
     </html>
   );
