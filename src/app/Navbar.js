@@ -14,6 +14,7 @@ const Navbar = () => {
     { href: "/privacy-policy", label: "Privacy Policy" },
     { href: "/faq", label: "FAQ" },
     { href: "/terms", label: "T&C" },
+    { href: "/contact", label: "Contact Us" },
   ];
 
   const toggleMenu = () => {
