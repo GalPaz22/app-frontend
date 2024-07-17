@@ -16,7 +16,7 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <head>
+      <Head>
         <script 
           async 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2790217851333052" 
@@ -30,18 +30,7 @@ const RootLayout = ({ children }) => {
         <meta name="author" content={metadata.author} />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icon.svg" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "url": "https://www.freechatpdf.com",
-            "logo": "https://www.freechatpdf.com/log.png",
-            "name": "100% Free ChatPDF",
-            "description": "100% Free ChatPDF- No registration required!",
-            
-          })}
-        </script>
-      </head>
+      </Head>
       <body className={`${inter.className} min-h-screen bg-gradient-to-br from-gray-900 to-blue-500 text-white`}>
         <Navbar />
         <main className="container mx-auto px-4 py-8">
@@ -51,7 +40,6 @@ const RootLayout = ({ children }) => {
           <p>&copy; {new Date().getFullYear()} Free ChatPDF. All rights reserved.</p>
         </footer>
         <Analytics />
-       
       </body>
     </html>
   );
