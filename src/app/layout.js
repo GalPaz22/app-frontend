@@ -40,6 +40,7 @@ const RootLayout = ({ children }) => {
           <p>&copy; {new Date().getFullYear()} Free ChatPDF. All rights reserved.</p>
         </footer>
         <Analytics />
+        <script type="text/javascript"> var infolinks_pid = 3422894; var infolinks_wsid = 0; </script> <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
       </body>
     </html>
   );
